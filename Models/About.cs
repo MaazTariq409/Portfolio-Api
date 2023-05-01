@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Portfolio_API.Models
 {
@@ -28,5 +29,8 @@ namespace Portfolio_API.Models
         public string Linkedin { get; set; }
         public string Git { get; set; }
         public Address address { get; set; }
+        [ForeignKey("SignUpID")]
+        public SignUp SignUp { get; set; }
+        public int SignUpID { get; set; }
     }
 }
