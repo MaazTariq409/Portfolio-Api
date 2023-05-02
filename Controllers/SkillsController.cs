@@ -24,6 +24,7 @@ namespace Portfolio_API.Controllers
 			return Ok(userSkills);
 		}
 
+
 		// POST api/<SkillsController>
 		[HttpPost]
 		public ActionResult AddUserSkill(int userId, [FromBody] Skills userSkill)
@@ -42,7 +43,48 @@ namespace Portfolio_API.Controllers
 
 			return Ok();
 		}
+		[HttpPut("users/{userId}/skills/{skillId}")]
+		public ActionResult UpdateUserSkill(int userId, int skillId, [FromBody] Skills skillobj)
+		{
+			var user = _context.user.Include(u => u.Skills).FirstOrDefault(u => u.Id == userId);
+			if (user == null)
+			{
+				return NotFound();
+			}
 
+			var skill = user.Skills.FirstOrDefault(s => s.Id == skillId);
+			if (skill == null)
+			{
+				return NotFound();
+			}
 
+			// Update 
+			skill.SkillName = skillobj.SkillName;
+			skill.SkillName = skillobj.SkillName;
+
+			_context.SaveChanges();
+
+			return Ok();
+		}
+		[HttpDelete("users/{userId}/skills/{skillId}")]
+		public IActionResult DeleteUserSkill(int userId, int skillId)
+		{
+			var user = _context.user.Include(u => u.Skills).FirstOrDefault(u => u.Id == userId);
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			// Find the skill in the user's Skills collection.
+			var skill = user.Skills.FirstOrDefault(s => s.Id == skillId);
+			if (skill == null)
+			{
+				return NotFound();
+			}
+			user.Skills.Remove(skill);
+
+			_context.SaveChanges();
+			return Ok();
+		}
 	}
 }
