@@ -15,8 +15,11 @@ namespace Portfolio_API.Data
         public DbSet<About> about { get; set; }
         public DbSet<Address> addresses { get; set; }
         public DbSet<Resume> resume { get; set; }
+        public DbSet<Skills> skills { get; set; }
+		public DbSet<User> users { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             //modelBuilder.Entity<Users>()
