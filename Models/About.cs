@@ -30,10 +30,12 @@ namespace Portfolio_API.Models
         public string Linkedin { get; set; }
         public string Git { get; set; }
 
-        [ForeignKey("addressId")]
-        [ValidateNever]
-        public Address address { get; set; }
-        public int addressId { get; set; }
+        public string City { get; set; }
+        [Required]
+        public string State { get; set; }
+        public string PostalCode { get; set; }
+        [Required]
+        public string Country { get; set; }
 
         [ForeignKey("UserID")]
         [ValidateNever]

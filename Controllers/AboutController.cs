@@ -45,24 +45,39 @@ namespace Portfolio_API.Controllers
             {
                 return NotFound();
             }
-            
-            var 
 
-            _userRepository.AddAbout(id, about);
+            var finalAbout = _mapper.Map<About>(about);
+
+            _userRepository.AddAbout(id, finalAbout);
 
             return Ok();
         }
 
-        //// PUT api/<AboutController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        // PUT api/<AboutController>/5
+        [HttpPut]
+        public ActionResult Put(int id, AboutDto about)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            //var finalAbout = _mapper.Map<About>(about);
 
-        //// DELETE api/<AboutController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+            _userRepository.updateAbout(id, about);
+            return Ok();
+        }
+
+        // DELETE api/<AboutController>/5
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            _userRepository.removeAbout(id);
+            return Ok();
+        }
     }
 }

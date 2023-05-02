@@ -1,29 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Portfolio_API.Migrations
 {
-    public partial class models : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "addresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_addresses", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "resume",
                 columns: table => new
@@ -38,7 +23,7 @@ namespace Portfolio_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "user",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -50,7 +35,7 @@ namespace Portfolio_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_user", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,22 +54,19 @@ namespace Portfolio_API.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Linkedin = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Git = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    addressId = table.Column<int>(type: "int", nullable: false),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_about", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_about_addresses_addressId",
-                        column: x => x.addressId,
-                        principalTable: "addresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_about_User_UserID",
+                        name: "FK_about_user_UserID",
                         column: x => x.UserID,
-                        principalTable: "User",
+                        principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -96,7 +78,8 @@ namespace Portfolio_API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DegreeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Duration = table.Column<double>(type: "float", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Grade = table.Column<string>(type: "nvarchar(1)", nullable: false),
                     Institute = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false)
@@ -105,9 +88,9 @@ namespace Portfolio_API.Migrations
                 {
                     table.PrimaryKey("PK_Education", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Education_User_UserID",
+                        name: "FK_Education_user_UserID",
                         column: x => x.UserID,
-                        principalTable: "User",
+                        principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -126,17 +109,12 @@ namespace Portfolio_API.Migrations
                 {
                     table.PrimaryKey("PK_Skills", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Skills_User_UserID",
+                        name: "FK_Skills_user_UserID",
                         column: x => x.UserID,
-                        principalTable: "User",
+                        principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_about_addressId",
-                table: "about",
-                column: "addressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_about_UserID",
@@ -171,10 +149,7 @@ namespace Portfolio_API.Migrations
                 name: "Skills");
 
             migrationBuilder.DropTable(
-                name: "addresses");
-
-            migrationBuilder.DropTable(
-                name: "User");
+                name: "user");
         }
     }
 }

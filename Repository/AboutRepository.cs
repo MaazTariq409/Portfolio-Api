@@ -10,27 +10,48 @@ namespace Portfolio_API.Repository
     {
         private readonly PorfolioContext _context;
 
-        public AboutRepository (PorfolioContext context)
+        public AboutRepository(PorfolioContext context)
         {
             _context = context;
         }
 
-        public void AddAbout(int id, AboutDto about)
+        public void AddAbout(int id, About about)
         {
-            _context.Add(about);
+            var UserAbout = new About();
+            if(about != null)
+            {
+                UserAbout.UserID = id;
+                UserAbout.FirstName = about.FirstName;
+                UserAbout.LastName = about.LastName;
+                UserAbout.Email = about.Email;
+                UserAbout.Phone = about.Phone;
+                UserAbout.Age = about.Age;
+                UserAbout.Description = about.Description;
+                UserAbout.ImageUrl = about.ImageUrl;
+                UserAbout.Git = about.Git;
+                UserAbout.Linkedin = about.Linkedin;
+                UserAbout.Gender = about.Gender;
+                UserAbout.City = about.City;
+                UserAbout.Country = about.Country;
+                UserAbout.State = about.State;
+                UserAbout.PostalCode = about.PostalCode;
+            }
+
+            _context.about.Add(UserAbout);
             _context.SaveChanges();
+
         }
 
         public About GetAbout(int id)
         {
-            var UserAbout = _context.about.Include(x => x.address).FirstOrDefault(x => x.Id == id);
+            var UserAbout = _context.about.FirstOrDefault(x => x.Id == id);
 
             return UserAbout;
         }
 
         public void removeAbout(int id)
         {
-            var UserAbout = _context.about.FirstOrDefault(x => x.Id == id);
+            var UserAbout = _context.about.FirstOrDefault(x => x.UserID == id);
             if (UserAbout != null)
             {
                 _context.Remove(UserAbout);
@@ -42,7 +63,7 @@ namespace Portfolio_API.Repository
         {
             //var UserAbout = _context.about.Where(x => x.Id == id).Include(x => x.address).ToList();
 
-            var UserAbout = _context.about.Include(x => x.address).FirstOrDefault(x => x.Id == id);
+            var UserAbout = _context.about.FirstOrDefault(x => x.UserID == id);
 
             if (UserAbout != null)
             {
@@ -56,10 +77,10 @@ namespace Portfolio_API.Repository
                 UserAbout.Git = about.Git;
                 UserAbout.Linkedin = about.Linkedin;
                 UserAbout.Gender = about.Gender;
-                UserAbout.address.City = about.City;
-                UserAbout.address.State = about.State;
-                UserAbout.address.PostalCode = about.PostalCode;
-                UserAbout.address.Country = about.Country;
+                UserAbout.City = about.City;
+                UserAbout.Country = about.Country;
+                UserAbout.State = about.State;
+                UserAbout.PostalCode = about.PostalCode;
 
                 _context.SaveChanges();
             }

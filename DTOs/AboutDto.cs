@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Portfolio_API.Models;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace Portfolio_API.DTOs
@@ -31,6 +32,5 @@ namespace Portfolio_API.DTOs
         public string PostalCode { get; set; }
         [Required]
         public string Country { get; set; }
-
     }
 }

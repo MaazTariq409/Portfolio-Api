@@ -18,6 +18,7 @@ namespace Portfolio_API
                 ));
 
             builder.Services.AddScoped<IUser, UserRepository>();
+            builder.Services.AddScoped<IAbout, AboutRepository>();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
