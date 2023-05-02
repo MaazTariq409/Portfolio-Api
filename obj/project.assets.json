@@ -10283,19 +10283,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Maaz Tariq\\.nuget\\packages\\": {}
+    "C:\\Users\\Khizra Shabbir\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Maaz Tariq\\Documents\\GitHub\\Portfolio-Api\\Portfolio API.csproj",
+      "projectUniqueName": "C:\\Users\\Khizra Shabbir\\Desktop\\Project\\Portfolio-Api\\Portfolio API.csproj",
       "projectName": "Portfolio API",
-      "projectPath": "C:\\Users\\Maaz Tariq\\Documents\\GitHub\\Portfolio-Api\\Portfolio API.csproj",
-      "packagesPath": "C:\\Users\\Maaz Tariq\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Maaz Tariq\\Documents\\GitHub\\Portfolio-Api\\obj\\",
+      "projectPath": "C:\\Users\\Khizra Shabbir\\Desktop\\Project\\Portfolio-Api\\Portfolio API.csproj",
+      "packagesPath": "C:\\Users\\Khizra Shabbir\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Khizra Shabbir\\Desktop\\Project\\Portfolio-Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Maaz Tariq\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Khizra Shabbir\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

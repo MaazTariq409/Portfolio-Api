@@ -12,9 +12,10 @@ namespace Portfolio_API.Models
         public string SkillName { get; set; }
         [Required]
         public string SkillLevel { get; set; }
-        [ForeignKey("UserID")]
-        [ValidateNever]
+        
         public User user { get; set; }
-        public int UserID { get; set; }
+		[ForeignKey("UserID")]
+		[ValidateNever]
+		public int UserID { get; set; }
     }
 }

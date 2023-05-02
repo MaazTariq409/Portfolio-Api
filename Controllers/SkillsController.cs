@@ -1,0 +1,48 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Portfolio_API.Data;
+using Portfolio_API.Models;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace Portfolio_API.Controllers
+{
+	[Route("api/users")]
+	[ApiController]
+	public class SkillsController : ControllerBase
+	{
+		private readonly PorfolioContext _context;
+
+		public SkillsController(PorfolioContext context)
+		{
+			_context = context;
+		}
+		[HttpGet("{userId}/skills")]
+		public ActionResult<List<Skills>> GetUserSkills(int userId)
+		{
+			var userSkills = _context.skills.Where(s => s.UserID == userId).ToList();
+			return Ok(userSkills);
+		}
+
+		// POST api/<SkillsController>
+		[HttpPost]
+		public ActionResult AddUserSkill(int userId, [FromBody] Skills userSkill)
+		{
+			var user = _context.user.FirstOrDefault(u => u.Id == userId);
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			//var skill = new Skills { SkillName = userSkill.SkillName, SkillLevel = userSkill.SkillLevel };
+
+			//userSkill.UserID = userId;
+			user.Skills.Add(userSkill);
+			_context.SaveChanges();
+
+			return Ok();
+		}
+
+
+	}
+}
