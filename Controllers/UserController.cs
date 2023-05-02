@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Portfolio_API.Data;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Portfolio_API.DTOs;
+using Portfolio_API.Models;
+using Portfolio_API.Repository.Repository_Interface;
 
 namespace Portfolio_API.Controllers
 {
@@ -9,44 +10,81 @@ namespace Portfolio_API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly PorfolioContext _context;
+        private readonly IUser _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserController(PorfolioContext context)
+        public UserController(IUser UserRepository, IMapper mapper)
         {
-            _context = context;
+            _userRepository = UserRepository;
+            _mapper = mapper;
         }
 
         // GET: api/<UserController>
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<User>> GetAllUsers ()
         {
-            var users = _context.user.ToList();
+            var users = _userRepository.Users();
             return Ok(users);
         }
 
         // GET api/<UserController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<User> GetUserById (int id)
         {
-            return "value";
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            var users = _userRepository.GetUserById(id, false);
+
+            return Ok(users);
         }
 
         // POST api/<UserController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult AddUser (UserDto user)
         {
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var finalUser = _mapper.Map<User>(user);
+
+            _userRepository.addUser(finalUser);
+
+            return Ok();
         }
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult Put(int id, UserDto user)
         {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            var users = _mapper.Map<User>(user);
+
+            _userRepository.updateUser(id, users);
+
+            return Ok();
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult DeleteUser (int id)
         {
+            if(id == 0)
+            {
+                return NotFound();
+            }
+
+            _userRepository.removeUser(id);
+
+            return Ok();
         }
     }
 }
