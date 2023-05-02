@@ -143,8 +143,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SignUpID")
-                        .IsUnique();
+                    b.HasIndex("SignUpID");
 
                     b.ToTable("experience");
                 });
@@ -178,8 +177,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SignUpID")
-                        .IsUnique();
+                    b.HasIndex("SignUpID");
 
                     b.ToTable("projects");
                 });
@@ -275,8 +273,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SignUpID")
-                        .IsUnique();
+                    b.HasIndex("SignUpID");
 
                     b.ToTable("skills");
                 });
@@ -303,8 +300,8 @@ namespace Portfolio_API.Migrations
             modelBuilder.Entity("Portfolio_API.Models.Experience", b =>
                 {
                     b.HasOne("Portfolio_API.Models.SignUp", "SignUp")
-                        .WithOne("Experience")
-                        .HasForeignKey("Portfolio_API.Models.Experience", "SignUpID")
+                        .WithMany("Experience")
+                        .HasForeignKey("SignUpID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -314,8 +311,8 @@ namespace Portfolio_API.Migrations
             modelBuilder.Entity("Portfolio_API.Models.Projects", b =>
                 {
                     b.HasOne("Portfolio_API.Models.SignUp", "SignUp")
-                        .WithOne("Projects")
-                        .HasForeignKey("Portfolio_API.Models.Projects", "SignUpID")
+                        .WithMany("Projects")
+                        .HasForeignKey("SignUpID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -336,8 +333,8 @@ namespace Portfolio_API.Migrations
             modelBuilder.Entity("Portfolio_API.Models.Skills", b =>
                 {
                     b.HasOne("Portfolio_API.Models.SignUp", "SignUp")
-                        .WithOne("Skills")
-                        .HasForeignKey("Portfolio_API.Models.Skills", "SignUpID")
+                        .WithMany("Skills")
+                        .HasForeignKey("SignUpID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -354,14 +351,11 @@ namespace Portfolio_API.Migrations
                     b.Navigation("About")
                         .IsRequired();
 
-                    b.Navigation("Experience")
-                        .IsRequired();
+                    b.Navigation("Experience");
 
-                    b.Navigation("Projects")
-                        .IsRequired();
+                    b.Navigation("Projects");
 
-                    b.Navigation("Skills")
-                        .IsRequired();
+                    b.Navigation("Skills");
                 });
 #pragma warning restore 612, 618
         }

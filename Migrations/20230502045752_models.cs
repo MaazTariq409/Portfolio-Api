@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Portfolio_API.Migrations
 {
-    public partial class Models : Migration
+    public partial class models : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -191,14 +191,12 @@ namespace Portfolio_API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_experience_SignUpID",
                 table: "experience",
-                column: "SignUpID",
-                unique: true);
+                column: "SignUpID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_projects_SignUpID",
                 table: "projects",
-                column: "SignUpID",
-                unique: true);
+                column: "SignUpID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Responsibilities_experienceId",
@@ -208,8 +206,7 @@ namespace Portfolio_API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_skills_SignUpID",
                 table: "skills",
-                column: "SignUpID",
-                unique: true);
+                column: "SignUpID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
