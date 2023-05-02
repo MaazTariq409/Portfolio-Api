@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Maaz Tariq\\source\\repos\\Portfolio API\\Portfolio API.csproj": {}
+    "C:\\Users\\Maaz Tariq\\Documents\\GitHub\\Portfolio-Api\\Portfolio API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Maaz Tariq\\source\\repos\\Portfolio API\\Portfolio API.csproj": {
+    "C:\\Users\\Maaz Tariq\\Documents\\GitHub\\Portfolio-Api\\Portfolio API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Maaz Tariq\\source\\repos\\Portfolio API\\Portfolio API.csproj",
+        "projectUniqueName": "C:\\Users\\Maaz Tariq\\Documents\\GitHub\\Portfolio-Api\\Portfolio API.csproj",
         "projectName": "Portfolio API",
-        "projectPath": "C:\\Users\\Maaz Tariq\\source\\repos\\Portfolio API\\Portfolio API.csproj",
+        "projectPath": "C:\\Users\\Maaz Tariq\\Documents\\GitHub\\Portfolio-Api\\Portfolio API.csproj",
         "packagesPath": "C:\\Users\\Maaz Tariq\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Maaz Tariq\\source\\repos\\Portfolio API\\obj\\",
+        "outputPath": "C:\\Users\\Maaz Tariq\\Documents\\GitHub\\Portfolio-Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Maaz Tariq\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,19 +40,37 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[6.0.12, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.14, )"
+              "version": "[6.0.12, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.12, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.14, )"
+              "version": "[6.0.12, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.14, )"
+              "version": "[6.0.12, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.12, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
