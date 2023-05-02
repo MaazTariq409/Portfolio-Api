@@ -29,8 +29,8 @@ namespace Portfolio_API.Models
         public string Linkedin { get; set; }
         public string Git { get; set; }
         public Address address { get; set; }
-        [ForeignKey("SignUpID")]
-        public SignUp SignUp { get; set; }
-        public int SignUpID { get; set; }
+        [ForeignKey("UserID")]
+        public User user { get; set; }
+        public int UserID { get; set; }
     }
 }

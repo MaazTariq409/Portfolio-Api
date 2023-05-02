@@ -1,23 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Portfolio_API.Data;
 
 namespace Portfolio_API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/{userId}")]
     [ApiController]
     public class AboutController : ControllerBase
     {
-        // GET: api/<AboutController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly PorfolioContext _context;
+
+        public AboutController(PorfolioContext context)
         {
-            return new string[] { "value1", "value2" };
+            _context = context;
         }
 
-        // GET api/<AboutController>/5
+        // GET: api/<AboutController>
         [HttpGet("{id}")]
-        public string Get(int id)
+        public ActionResult<IEnumerable<string>> GetAboutDetails(int id)
         {
-            return "value";
+            
         }
 
         // POST api/<AboutController>

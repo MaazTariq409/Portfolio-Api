@@ -11,8 +11,8 @@ namespace Portfolio_API.Models
         public string SkillName { get; set; }
         [Required]
         public string SkillLevel { get; set; }
-        [ForeignKey("SignUpID")]
-        public SignUp SignUp { get; set; }
-        public int SignUpID { get; set; }
+        [ForeignKey("UserID")]
+        public User user { get; set; }
+        public int UserID { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -39,7 +38,7 @@ namespace Portfolio_API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SignUp",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -51,7 +50,7 @@ namespace Portfolio_API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SignUp", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,7 +70,7 @@ namespace Portfolio_API.Migrations
                     Linkedin = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Git = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     addressId = table.Column<int>(type: "int", nullable: false),
-                    SignUpID = table.Column<int>(type: "int", nullable: false)
+                    UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -83,96 +82,53 @@ namespace Portfolio_API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_about_SignUp_SignUpID",
-                        column: x => x.SignUpID,
-                        principalTable: "SignUp",
+                        name: "FK_about_User_UserID",
+                        column: x => x.UserID,
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "experience",
+                name: "Education",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SignUpID = table.Column<int>(type: "int", nullable: false)
+                    DegreeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Duration = table.Column<double>(type: "float", nullable: false),
+                    Grade = table.Column<string>(type: "nvarchar(1)", nullable: false),
+                    Institute = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_experience", x => x.Id);
+                    table.PrimaryKey("PK_Education", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_experience_SignUp_SignUpID",
-                        column: x => x.SignUpID,
-                        principalTable: "SignUp",
+                        name: "FK_Education_User_UserID",
+                        column: x => x.UserID,
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "projects",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ProjectTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ProjectStack = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GitUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SignUpID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_projects", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_projects_SignUp_SignUpID",
-                        column: x => x.SignUpID,
-                        principalTable: "SignUp",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "skills",
+                name: "Skills",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SkillName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SkillLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SignUpID = table.Column<int>(type: "int", nullable: false)
+                    UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_skills", x => x.Id);
+                    table.PrimaryKey("PK_Skills", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_skills_SignUp_SignUpID",
-                        column: x => x.SignUpID,
-                        principalTable: "SignUp",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Responsibilities",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Responsibility = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    experienceId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Responsibilities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Responsibilities_experience_experienceId",
-                        column: x => x.experienceId,
-                        principalTable: "experience",
+                        name: "FK_Skills_User_UserID",
+                        column: x => x.UserID,
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -183,30 +139,21 @@ namespace Portfolio_API.Migrations
                 column: "addressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_about_SignUpID",
+                name: "IX_about_UserID",
                 table: "about",
-                column: "SignUpID",
+                column: "UserID",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_experience_SignUpID",
-                table: "experience",
-                column: "SignUpID");
+                name: "IX_Education_UserID",
+                table: "Education",
+                column: "UserID",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_projects_SignUpID",
-                table: "projects",
-                column: "SignUpID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Responsibilities_experienceId",
-                table: "Responsibilities",
-                column: "experienceId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_skills_SignUpID",
-                table: "skills",
-                column: "SignUpID");
+                name: "IX_Skills_UserID",
+                table: "Skills",
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -215,25 +162,19 @@ namespace Portfolio_API.Migrations
                 name: "about");
 
             migrationBuilder.DropTable(
-                name: "projects");
-
-            migrationBuilder.DropTable(
-                name: "Responsibilities");
+                name: "Education");
 
             migrationBuilder.DropTable(
                 name: "resume");
 
             migrationBuilder.DropTable(
-                name: "skills");
+                name: "Skills");
 
             migrationBuilder.DropTable(
                 name: "addresses");
 
             migrationBuilder.DropTable(
-                name: "experience");
-
-            migrationBuilder.DropTable(
-                name: "SignUp");
+                name: "User");
         }
     }
 }

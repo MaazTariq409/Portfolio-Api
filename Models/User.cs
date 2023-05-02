@@ -2,7 +2,7 @@
 
 namespace Portfolio_API.Models
 {
-    public class SignUp
+    public class User
     {
         [Key]
         public int Id { get; set; }
@@ -18,8 +18,7 @@ namespace Portfolio_API.Models
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
         public string ConfirmPassword { get; set; }
         public About About { get; set; }
-        public List<Experience> Experience { get; set; }
-        public List<Projects> Projects { get; set; }
+        public Education Education { get; set; }
         public List<Skills> Skills { get; set; }
     }
 }
