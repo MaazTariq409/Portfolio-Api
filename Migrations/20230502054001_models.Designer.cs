@@ -10,7 +10,7 @@ using Portfolio_API.Data;
 
 namespace Portfolio_API.Migrations
 {
-    [DbContext(typeof(porfolioContext))]
+    [DbContext(typeof(PorfolioContext))]
     [Migration("20230502054001_models")]
     partial class models
     {

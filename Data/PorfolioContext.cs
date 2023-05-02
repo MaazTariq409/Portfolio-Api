@@ -11,7 +11,7 @@ namespace Portfolio_API.Data
         { 
         }
 
-        //public DbSet<SignUp> signUp { get; set; }
+        public DbSet<User> user { get; set; }
         public DbSet<About> about { get; set; }
         public DbSet<Address> addresses { get; set; }
         public DbSet<Resume> resume { get; set; }
