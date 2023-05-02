@@ -11,7 +11,7 @@ namespace Portfolio_API
 
             // Add services to the container.
 
-            builder.Services.AddDbContext<porfolioContext>(option => option.UseSqlServer(
+            builder.Services.AddDbContext<PorfolioContext>(option => option.UseSqlServer(
                 builder.Configuration.GetConnectionString("DefaultConnection")
                 ));
 

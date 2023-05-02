@@ -9,7 +9,7 @@ using Portfolio_API.Data;
 
 namespace Portfolio_API.Migrations
 {
-    [DbContext(typeof(porfolioContext))]
+    [DbContext(typeof(PorfolioContext))]
     partial class porfolioContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -83,7 +83,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasIndex("addressId");
 
-                    b.ToTable("about");
+                    b.ToTable("about", (string)null);
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.Address", b =>
@@ -112,7 +112,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("addresses");
+                    b.ToTable("addresses", (string)null);
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.Education", b =>
@@ -146,7 +146,7 @@ namespace Portfolio_API.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("Education");
+                    b.ToTable("Education", (string)null);
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.Resume", b =>
@@ -163,7 +163,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("resume");
+                    b.ToTable("resume", (string)null);
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.Skills", b =>
@@ -189,7 +189,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Skills");
+                    b.ToTable("Skills", (string)null);
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.User", b =>
@@ -220,7 +220,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("User");
+                    b.ToTable("User", (string)null);
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.About", b =>

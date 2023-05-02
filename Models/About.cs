@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Portfolio_API.Models
@@ -28,8 +29,14 @@ namespace Portfolio_API.Models
         public string Email { get; set; }
         public string Linkedin { get; set; }
         public string Git { get; set; }
+
+        [ForeignKey("addressId")]
+        [ValidateNever]
         public Address address { get; set; }
+        public int addressId { get; set; }
+
         [ForeignKey("UserID")]
+        [ValidateNever]
         public User user { get; set; }
         public int UserID { get; set; }
     }

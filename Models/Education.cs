@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Portfolio_API.Models
@@ -16,6 +17,7 @@ namespace Portfolio_API.Models
         [Required]
         public string Institute { get; set; }
         [ForeignKey("UserID")]
+        [ValidateNever]
         public User user { get; set; }
         public int UserID { get; set; }
     }
