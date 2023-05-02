@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Portfolio_API.Models
+namespace Portfolio_API.DTOs
 {
-    public class User
+    public class UserDto
     {
-        [Key]
-        public int Id { get; set; }
         [Required(ErrorMessage = "Please enter a Username")]
         public string Username { get; set; }
         [Required(ErrorMessage = "Please enter an Email")]
@@ -18,11 +15,5 @@ namespace Portfolio_API.Models
         [Required(ErrorMessage = "Confirm Password is required")]
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
         public string ConfirmPassword { get; set; }
-        [ValidateNever]
-        public About About { get; set; }
-        [ValidateNever]
-        public Education Education { get; set; }
-        [ValidateNever]
-        public List<Skills> Skills { get; set; }
     }
 }
