@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio_API.Data;
+using Portfolio_API.DTOs;
 using Portfolio_API.Models;
+using Portfolio_API.Repository.Repository_Interface;
 
 namespace Portfolio_API.Controllers
 {
@@ -9,56 +12,72 @@ namespace Portfolio_API.Controllers
     [ApiController]
     public class AboutController : ControllerBase
     {
-        private readonly PorfolioContext _context;
+        private readonly IAbout _userRepository;
+        private readonly IMapper _mapper;
 
-        public AboutController(PorfolioContext context)
+        public AboutController(IAbout UserRepository, IMapper mapper)
         {
-            _context = context;
+            _userRepository = UserRepository;
+            _mapper = mapper;
         }
 
         // GET: api/<AboutController>
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<string>> aboutDetails(int id)
+        public ActionResult<IEnumerable<AboutDto>> aboutDetails(int id)
         {
             if (id == 0)
             {
                 return NotFound();
             }
-            var aboutDetails = _context.about.FirstOrDefault(a => a.Id == id);
-            if (aboutDetails == null)
-            {
-                return NotFound();
-            }
 
-            return Ok(aboutDetails);
+            var aboutFromDB = _userRepository.GetAbout(id);
+
+            var AboutDto = _mapper.Map<AboutDto>(aboutFromDB);
+
+            return Ok(AboutDto);
         }
 
         // POST api/<AboutController>
         [HttpPost]
-        public ActionResult aboutDetails(About about)
+        public ActionResult AddAboutDetails (int id, AboutDto about)
         {
-            if(about == null)
+            if(id == 0)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.about.Add(about);
-            _context.SaveChanges();
+            var finalAbout = _mapper.Map<About>(about);
+
+            _userRepository.AddAbout(id, finalAbout);
 
             return Ok();
-
         }
 
-        //// PUT api/<AboutController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        // PUT api/<AboutController>/5
+        [HttpPut]
+        public ActionResult Put(int id, AboutDto about)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            //var finalAbout = _mapper.Map<About>(about);
 
-        //// DELETE api/<AboutController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+            _userRepository.updateAbout(id, about);
+            return Ok();
+        }
+
+        // DELETE api/<AboutController>/5
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+
+            _userRepository.removeAbout(id);
+            return Ok();
+        }
     }
 }

@@ -11,7 +11,9 @@ namespace Portfolio_API.Models
         [Required(ErrorMessage = "Please enter a Degree Name")]
         public string DegreeName { get; set; }
         [Required]
-        public double Duration { get; set; }
+        public DateTime StartDate { get; set; }
+        [Required]
+        public DateTime EndDate { get; set; }
         [Required(ErrorMessage = "Please enter your grade")]
         public char Grade { get; set; }
         [Required]

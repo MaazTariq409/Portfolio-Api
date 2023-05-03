@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Portfolio_API.Data;
+using Portfolio_API.Repository;
+using Portfolio_API.Repository.Repository_Interface;
 
 namespace Portfolio_API
 {
@@ -14,6 +16,11 @@ namespace Portfolio_API
             builder.Services.AddDbContext<PorfolioContext>(option => option.UseSqlServer(
                 builder.Configuration.GetConnectionString("DefaultConnection")
                 ));
+
+            builder.Services.AddScoped<IUser, UserRepository>();
+            builder.Services.AddScoped<IAbout, AboutRepository>();
+
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
