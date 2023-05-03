@@ -475,3 +475,18 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.vsidx
+.vs/Portfolio API/FileContentIndex/90c210dc-28e3-41f3-90a4-29ae9273de5e.vsidx
+.vs/Portfolio API/DesignTimeBuild/.dtbcache.v2
+.vs/Portfolio API/FileContentIndex/01e981ab-d91d-4e4f-a746-567a54bf7872.vsidx
+.vs/Portfolio API/FileContentIndex/1016c3f0-daf5-4bce-aa78-dedb8cc6ecdb.vsidx
+.vs/Portfolio API/FileContentIndex/12b62fca-fc1d-4054-969a-27abd2fd22cd.vsidx
+.vs/Portfolio API/FileContentIndex/90c210dc-28e3-41f3-90a4-29ae9273de5e.vsidx
+.vs/Portfolio API/v17/.suo
+bin/Debug/net6.0/Portfolio API.dll
+bin/Debug/net6.0/Portfolio API.pdb
+obj/Debug/net6.0/Portfolio API.csproj.CoreCompileInputs.cache
+obj/Debug/net6.0/Portfolio API.dll
+obj/Debug/net6.0/Portfolio API.pdb
+obj/Debug/net6.0/ref/Portfolio API.dll
+obj/Debug/net6.0/refint/Portfolio API.dll
