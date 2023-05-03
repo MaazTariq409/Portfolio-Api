@@ -21,8 +21,7 @@ namespace Portfolio_API.Repository
             if(about != null)
             {
                 UserAbout.UserID = id;
-                UserAbout.FirstName = about.FirstName;
-                UserAbout.LastName = about.LastName;
+                UserAbout.Name = about.Name;
                 UserAbout.Email = about.Email;
                 UserAbout.Phone = about.Phone;
                 UserAbout.Age = about.Age;
@@ -31,10 +30,9 @@ namespace Portfolio_API.Repository
                 UserAbout.Git = about.Git;
                 UserAbout.Linkedin = about.Linkedin;
                 UserAbout.Gender = about.Gender;
-                UserAbout.City = about.City;
-                UserAbout.Country = about.Country;
-                UserAbout.State = about.State;
-                UserAbout.PostalCode = about.PostalCode;
+                UserAbout.Address = about.Address;
+                UserAbout.Introduction = about.Introduction;
+                UserAbout.Language = about.Language;
             }
 
             _context.about.Add(UserAbout);
@@ -67,8 +65,7 @@ namespace Portfolio_API.Repository
 
             if (UserAbout != null)
             {
-                UserAbout.FirstName = about.FirstName;
-                UserAbout.LastName = about.LastName;
+                UserAbout.Name = about.Name;
                 UserAbout.Email = about.Email;
                 UserAbout.Phone = about.Phone;
                 UserAbout.Age = about.Age;
@@ -77,10 +74,9 @@ namespace Portfolio_API.Repository
                 UserAbout.Git = about.Git;
                 UserAbout.Linkedin = about.Linkedin;
                 UserAbout.Gender = about.Gender;
-                UserAbout.City = about.City;
-                UserAbout.Country = about.Country;
-                UserAbout.State = about.State;
-                UserAbout.PostalCode = about.PostalCode;
+                UserAbout.Address = about.Address;
+                UserAbout.Introduction = about.Introduction;
+                UserAbout.Language = about.Language;
 
                 _context.SaveChanges();
             }

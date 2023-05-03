@@ -8,10 +8,8 @@ namespace Portfolio_API.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Please enter First Name"), MaxLength(30)]
-        public string FirstName { get; set; }
-        [Required(ErrorMessage = "Please enter Last Name"), MaxLength(30)]
-        public string LastName { get; set; }
+        [Required(ErrorMessage = "Please enter First Name")]
+        public string Name { get; set; }
         [Required]
         public int Age { get; set; }
         [Required(ErrorMessage = "Please enter a Phone No")]
@@ -22,6 +20,7 @@ namespace Portfolio_API.Models
         public string Gender { get; set; }
         [Required(ErrorMessage = "Please upload an image")]
         public string ImageUrl { get; set; }
+        public string Introduction { get; set; }
         [Required(ErrorMessage = "Please enter Description")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Please enter an Email")]
@@ -29,13 +28,8 @@ namespace Portfolio_API.Models
         public string Email { get; set; }
         public string Linkedin { get; set; }
         public string Git { get; set; }
-
-        public string City { get; set; }
-        [Required]
-        public string State { get; set; }
-        public string PostalCode { get; set; }
-        [Required]
-        public string Country { get; set; }
+        public string Address { get; set; }
+        public string Language { get; set; }
 
         [ForeignKey("UserID")]
         [ValidateNever]
