@@ -1,88 +1,95 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio_API.Data;
+using Portfolio_API.DTOs;
 using Portfolio_API.Models;
+using Portfolio_API.Repository;
+using Portfolio_API.Repository.Repository_Interface;
 
 namespace Portfolio_API.Controllers
 {
-	[Route("api/users")]
+	[Route("api/skills")]
 	[ApiController]
 	public class SkillsController : ControllerBase
 	{
 		private readonly PorfolioContext _context;
+		private readonly ISkills _skillsRepository;
+		private readonly IMapper _mapper;
 
-		public SkillsController(PorfolioContext context)
+		public SkillsController(PorfolioContext context, IMapper mapper, ISkills SkillsRepository )
 		{
 			_context = context;
+			_mapper = mapper;
+			_skillsRepository = SkillsRepository;
+
 		}
-		[HttpGet("{userId}/skills")]
-		public ActionResult<List<Skills>> GetUserSkills(int userId)
+		[HttpGet("{userId}")]
+		public ActionResult<List<Skills>> GetUserSkills(int id)
 		{
-			var userSkills = _context.skills.Where(s => s.UserID == userId).ToList();
-			return Ok(userSkills);
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var skillsFromDB = _skillsRepository.GetSkillsByUserID(id);
+
+			var skillsDto = _mapper.Map<IEnumerable<SkillsDto>>(skillsFromDB);
+
+			return Ok(skillsDto);
+
 		}
 
 
-		// POST api/<SkillsController>
+		//POST api/<SkillsController>
 		[HttpPost]
-		public ActionResult AddUserSkill(int userId, [FromBody] Skills userSkill)
+		public ActionResult AddUserSkill(int id, [FromBody] SkillsDto userSkill)
 		{
-			var user = _context.user.FirstOrDefault(u => u.Id == userId);
-			if (user == null)
+			if (id == null)
 			{
 				return NotFound();
 			}
 
-			//var skill = new Skills { SkillName = userSkill.SkillName, SkillLevel = userSkill.SkillLevel };
+			var AddSkill = _mapper.Map<Skills>(userSkill);
 
-			//userSkill.UserID = userId;
-			user.Skills.Add(userSkill);
-			_context.SaveChanges();
+			_skillsRepository.AddSkillsByUserID(id, AddSkill);
 
 			return Ok();
+
+
 		}
-		[HttpPut("users/{userId}/skills/{skillId}")]
-		public ActionResult UpdateUserSkill(int userId, int skillId, [FromBody] Skills skillobj)
+
+
+		[HttpPut("{skillId}")]
+		public ActionResult UpdateUserSkill(int id, int skillId, [FromBody] SkillsDto userSkill)
 		{
-			var user = _context.user.Include(u => u.Skills).FirstOrDefault(u => u.Id == userId);
-			if (user == null)
+			if (id == null || skillId == null)
 			{
 				return NotFound();
 			}
 
-			var skill = user.Skills.FirstOrDefault(s => s.Id == skillId);
-			if (skill == null)
-			{
-				return NotFound();
-			}
+			var updateskills = _mapper.Map<Skills>(userSkill);
 
-			// Update 
-			skill.SkillName = skillobj.SkillName;
-			skill.SkillName = skillobj.SkillName;
-
-			_context.SaveChanges();
+			_skillsRepository.updateSkillsByUserID(id, skillId, updateskills);
 
 			return Ok();
+
 		}
-		[HttpDelete("users/{userId}/skills/{skillId}")]
-		public IActionResult DeleteUserSkill(int userId, int skillId)
+
+
+		[HttpDelete]
+		public IActionResult DeleteUserSkill(int id, int UserID)
 		{
-			var user = _context.user.Include(u => u.Skills).FirstOrDefault(u => u.Id == userId);
-			if (user == null)
+
+			if (id == null || UserID == null)
 			{
 				return NotFound();
 			}
 
-			// Find the skill in the user's Skills collection.
-			var skill = user.Skills.FirstOrDefault(s => s.Id == skillId);
-			if (skill == null)
-			{
-				return NotFound();
-			}
-			user.Skills.Remove(skill);
+			_skillsRepository.removeSkillsByUserID(id, UserID);
 
-			_context.SaveChanges();
 			return Ok();
+
 		}
 	}
 }
