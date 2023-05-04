@@ -14,11 +14,14 @@ namespace Portfolio_API.Controllers
     {
         private readonly IUser _userRepository;
         private readonly IMapper _mapper;
+        private readonly TokenGeneration _token;
+        private readonly AuthController _auth;
 
-        public UserController(IUser UserRepository, IMapper mapper)
+        public UserController(IUser UserRepository, IMapper mapper, TokenGeneration token)
         {
             _userRepository = UserRepository;
             _mapper = mapper;
+            _token = token;
         }
 
         //// GET: api/<UserController>
@@ -44,9 +47,11 @@ namespace Portfolio_API.Controllers
             return Ok(users);
         }
 
+
         // POST api/<UserController>
+        [AllowAnonymous]
         [HttpPost]
-        public ActionResult AddUser (UserDto user)
+        public ActionResult<string> AddUser (UserDto user)
         {
             if (user == null)
             {
@@ -55,9 +60,16 @@ namespace Portfolio_API.Controllers
 
             var finalUser = _mapper.Map<User>(user);
 
+            // TODO : Existing user 
+
+            // TODO : Response should return common
+                // Error : Message, Data, Status
+                // Success : Data, Message, Status
             _userRepository.addUser(finalUser);
 
-            return Ok();
+            var Token = _token.TokenGenerator(finalUser);
+
+            return Ok(Token);
         }
 
         // PUT api/<UserController>/5

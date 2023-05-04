@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Portfolio_API.Controllers;
 using Portfolio_API.Data;
 using Portfolio_API.Repository;
 using Portfolio_API.Repository.Repository_Interface;
@@ -21,9 +22,10 @@ namespace Portfolio_API
 
             builder.Services.AddScoped<IUser, UserRepository>();
             builder.Services.AddScoped<IAbout, AboutRepository>();
-			      builder.Services.AddScoped<ISkills, SkillsRepository>();
+            builder.Services.AddScoped<ISkills, SkillsRepository>();
             builder.Services.AddScoped<IEducation, EducationRepository>();
 
+            builder.Services.AddTransient<TokenGeneration>();
 
 			builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
