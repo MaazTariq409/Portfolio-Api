@@ -44,7 +44,9 @@ namespace Portfolio_API.Controllers
             return Ok(users);
         }
 
+
         // POST api/<UserController>
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult AddUser (UserDto user)
         {
