@@ -47,10 +47,20 @@ namespace Portfolio_API.Controllers
         }
 
         //// PUT api/<EducationController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
+        [HttpPut]
+        public ActionResult UpdateEdu(int id, int eduId, EducationDto Edu)
+        {
+            if (id == 0 || eduId == 0)
+            {
+                return NotFound();
+            }
+
+            var finalEdu = _mapper.Map<Education>(Edu);
+
+            _EducationRepository.updateEducation(id, eduId, finalEdu);
+
+            return Ok();
+        }
 
         // DELETE api/<EducationController>/5
         [HttpDelete]

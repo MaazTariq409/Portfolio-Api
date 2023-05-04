@@ -23,12 +23,12 @@ namespace Portfolio_API.Repository
             return education;
         }
 
-        public void AddEducation(int id, Education about)
+        public void AddEducation(int id, Education Edu)
         {
             var user = _context.user.Include(x => x.Education).FirstOrDefault(x => x.Id == id );
             if (user != null)
             {
-                user.Education.Add(about);
+                user.Education.Add(Edu);
                 _context.SaveChanges();
             }
         }
@@ -43,14 +43,21 @@ namespace Portfolio_API.Repository
         public void updateEducation(int id, int eduId, Education Edu)
         {
             var user = _context.user.Include(x => x.Education).FirstOrDefault(x => x.Id == id);
-            foreach (var item in user.Education)
-            {
 
+            if (user != null)
+            {
+                var edu = user.Education.FirstOrDefault(x => x.Id == eduId);
+                if (edu != null)
+                {
+                    edu.DegreeName = Edu.DegreeName;
+                    edu.DegreeLevel = Edu.DegreeLevel;
+                    edu.StartDate = Edu.StartDate;
+                    edu.EndDate = Edu.EndDate;
+                    edu.Institute = Edu.Institute;
+                    edu.Achievement = Edu.Achievement;
+                }
+                _context.SaveChanges();
             }
-            //user.Education.
-            //var edu = user.Education.re(Edu);
-            //_context.educations.Update(edu);
-            _context.SaveChanges();
         }
     }
 }
