@@ -27,7 +27,7 @@ namespace Portfolio_API
 
             builder.Services.AddTransient<TokenGeneration>();
 
-			builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -43,8 +43,8 @@ namespace Portfolio_API
                         ValidateAudience = true,
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = builder.Configuration["Authentication:Issuer"],
-                        ValidAudience = builder.Configuration["authentication:Audiance"],   
-                        IssuerSigningKey =  new SymmetricSecurityKey(
+                        ValidAudience = builder.Configuration["authentication:Audiance"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
                             Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
                     };
                 });
@@ -57,6 +57,11 @@ namespace Portfolio_API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors(builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 
             app.UseHttpsRedirection();
 

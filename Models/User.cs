@@ -18,10 +18,7 @@ namespace Portfolio_API.Models
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
         public string Password { get; set; }
         
-        [Required(ErrorMessage = "Confirm Password is required")]
-        [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
-         public string ConfirmPassword { get; set; }
-        [ValidateNever]
+
         public About About { get; set; }
         [ValidateNever]
         public List<Education> Education { get; set; }

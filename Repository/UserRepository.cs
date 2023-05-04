@@ -58,7 +58,6 @@ namespace Portfolio_API.Repository
                 userFromDB.Username = user.Username;
                 userFromDB.Password = user.Password;
                 userFromDB.Email = user.Email;
-                userFromDB.ConfirmPassword = user.ConfirmPassword;
             }
             _context.SaveChanges();
         }
