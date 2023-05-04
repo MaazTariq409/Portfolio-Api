@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio_API.Data;
@@ -10,6 +11,7 @@ using Portfolio_API.Repository.Repository_Interface;
 namespace Portfolio_API.Controllers
 {
 	[Route("api/skills")]
+	[Authorize]
 	[ApiController]
 	public class SkillsController : ControllerBase
 	{
@@ -24,15 +26,16 @@ namespace Portfolio_API.Controllers
 			_skillsRepository = SkillsRepository;
 
 		}
-		[HttpGet("{userId}")]
-		public ActionResult<List<Skills>> GetUserSkills(int id)
+		[HttpGet]
+		public ActionResult<List<Skills>> GetUserSkills()
 		{
-			if (id == null)
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+            if (userId == 0)
 			{
 				return NotFound();
 			}
 
-			var skillsFromDB = _skillsRepository.GetSkillsByUserID(id);
+			var skillsFromDB = _skillsRepository.GetSkillsByUserID(userId);
 
 			var skillsDto = _mapper.Map<IEnumerable<SkillsDto>>(skillsFromDB);
 
@@ -43,16 +46,17 @@ namespace Portfolio_API.Controllers
 
 		//POST api/<SkillsController>
 		[HttpPost]
-		public ActionResult AddUserSkill(int id, [FromBody] SkillsDto userSkill)
+		public ActionResult AddUserSkill([FromBody] SkillsDto userSkill)
 		{
-			if (id == null)
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+            if (userId == 0)
 			{
 				return NotFound();
 			}
 
 			var AddSkill = _mapper.Map<Skills>(userSkill);
 
-			_skillsRepository.AddSkillsByUserID(id, AddSkill);
+			_skillsRepository.AddSkillsByUserID(userId, AddSkill);
 
 			return Ok();
 
@@ -61,16 +65,17 @@ namespace Portfolio_API.Controllers
 
 
 		[HttpPut("{skillId}")]
-		public ActionResult UpdateUserSkill(int id, int skillId, [FromBody] SkillsDto userSkill)
+		public ActionResult UpdateUserSkill(int skillId, [FromBody] SkillsDto userSkill)
 		{
-			if (id == null || skillId == null)
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+            if (userId == 0 || skillId == 0)
 			{
 				return NotFound();
 			}
 
 			var updateskills = _mapper.Map<Skills>(userSkill);
 
-			_skillsRepository.updateSkillsByUserID(id, skillId, updateskills);
+			_skillsRepository.updateSkillsByUserID(userId, skillId, updateskills);
 
 			return Ok();
 
@@ -78,15 +83,16 @@ namespace Portfolio_API.Controllers
 
 
 		[HttpDelete]
-		public IActionResult DeleteUserSkill(int id, int UserID)
+		public IActionResult DeleteUserSkill(int skillId)
 		{
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-			if (id == null || UserID == null)
+            if (userId == 0 || skillId == 0)
 			{
 				return NotFound();
 			}
 
-			_skillsRepository.removeSkillsByUserID(id, UserID);
+			_skillsRepository.removeSkillsByUserID(userId, skillId);
 
 			return Ok();
 

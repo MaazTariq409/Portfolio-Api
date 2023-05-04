@@ -8,6 +8,7 @@ using Portfolio_API.Repository.Repository_Interface;
 namespace Portfolio_API.Controllers
 {
     [Route("api/User")]
+    [Authorize]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -20,24 +21,25 @@ namespace Portfolio_API.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/<UserController>
-        [HttpGet]
-        public ActionResult<IEnumerable<User>> GetAllUsers ()
-        {
-            var users = _userRepository.Users();
-            return Ok(users);
-        }
+        //// GET: api/<UserController>
+        //[HttpGet]
+        //public ActionResult<IEnumerable<User>> GetAllUsers ()
+        //{
+        //    var users = _userRepository.Users();
+        //    return Ok(users);
+        //}
 
         // GET api/<UserController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
         public ActionResult<User> GetUserById (int id)
         {
-            if (id == 0)
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+            if (userId == 0)
             {
-                return NotFound();
+                return Unauthorized();
             }
 
-            var users = _userRepository.GetUserById(id, false);
+            var users = _userRepository.GetUserById(userId, false);
 
             return Ok(users);
         }
@@ -60,30 +62,32 @@ namespace Portfolio_API.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, UserDto user)
+        public ActionResult Put(UserDto user)
         {
-            if (id == 0)
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+            if (userId == 0)
             {
                 return NotFound();
             }
 
             var users = _mapper.Map<User>(user);
 
-            _userRepository.updateUser(id, users);
+            _userRepository.updateUser(userId, users);
 
             return Ok();
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteUser (int id)
+        public ActionResult DeleteUser ()
         {
-            if(id == 0)
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+            if (userId == 0)
             {
                 return NotFound();
             }
 
-            _userRepository.removeUser(id);
+            _userRepository.removeUser(userId);
 
             return Ok();
         }

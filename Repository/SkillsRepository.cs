@@ -25,39 +25,38 @@ namespace Portfolio_API.Repository
 		{
 			var users = _context.user.Include(x => x.Skills).FirstOrDefault(x => x.Id == id);
 			users.Skills.Add(skills);
-			Save();
+			_context.SaveChanges();
 
 		}
 
-		public void updateSkillsByUserID(int id, int UserID, Skills skill)
+		public void updateSkillsByUserID(int id, int skillId, Skills skill)
 		{
 			var user = _context.user.Include(x => x.Skills).FirstOrDefault(x => x.Id == id);
 			if (user != null)
 			{
-				var _Findskill = _context.skills.FirstOrDefault(i => i.Id == id);
+                var _Findskill = user.Skills.FirstOrDefault(x => x.Id == skillId);
+
 				if (_Findskill != null)
 				{
 					_Findskill.SkillName = skill.SkillName;
 					_Findskill.SkillLevel = skill.SkillLevel;
 				}
-				Save();
+				_context.SaveChanges();
 			}
-
 		}
 
-		public void removeSkillsByUserID(int id, int UserID)
+		public void removeSkillsByUserID(int id, int skillId)
 		{
-			var users = _context.user.Include(x => x.Skills).FirstOrDefault(x => x.Id == UserID);
-			_context.Remove(users);
-			_context.SaveChanges();
+			var users = _context.user.Include(x => x.Skills).FirstOrDefault(x => x.Id == skillId);
+			if (users != null)
+			{
+                var skill = users.Skills.FirstOrDefault(x => x.Id == skillId);
+                if (skill != null)
+                {
+                    _context.Remove(skill);
+                    _context.SaveChanges();
+                }
+            }
 		}
-
-
-		public void Save()
-		{
-			_context.SaveChanges();
-		}
-
-
 	}
 }
