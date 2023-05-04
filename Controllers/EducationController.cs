@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio_API.DTOs;
 using Portfolio_API.Models;
@@ -8,6 +9,7 @@ using Portfolio_API.Repository.Repository_Interface;
 namespace Portfolio_API.Controllers
 {
     [Route("api/education")]
+    [Authorize]
     [ApiController]
     public class EducationController : ControllerBase
     {

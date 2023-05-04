@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Portfolio_API.Data;
 using Portfolio_API.Repository;
 using Portfolio_API.Repository.Repository_Interface;
+using System.Text;
 
 namespace Portfolio_API
 {
@@ -30,6 +32,21 @@ namespace Portfolio_API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddAuthentication("Bearer")
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["Authentication:Issuer"],
+                        ValidAudience = builder.Configuration["authentication:Audiance"],   
+                        IssuerSigningKey =  new SymmetricSecurityKey(
+                            Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
+                    };
+                });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -41,8 +58,16 @@ namespace Portfolio_API
 
             app.UseHttpsRedirection();
 
+            app.UseRouting();
+
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
 
             app.MapControllers();
 
