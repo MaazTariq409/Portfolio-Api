@@ -1,14 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Portfolio_API.Models
+namespace Portfolio_API.DTOs
 {
-    public class Education
+    public class EducationDto
     {
-        [Key]
-        public int Id { get; set; }
-        [Required(ErrorMessage = "Please enter a Degree Name")]
         public string DegreeName { get; set; }
         [Required(ErrorMessage = "Please enter a Degree Level")]
         public string DegreeLevel { get; set; }
@@ -21,9 +16,5 @@ namespace Portfolio_API.Models
         public string Achievement { get; set; }
         [Required]
         public string Institute { get; set; }
-        [ForeignKey("UserID")]
-        [ValidateNever]
-        public User user { get; set; }
-        public int UserID { get; set; }
     }
 }
