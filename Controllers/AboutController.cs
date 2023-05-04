@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio_API.Data;
@@ -9,6 +10,7 @@ using Portfolio_API.Repository.Repository_Interface;
 namespace Portfolio_API.Controllers
 {
     [Route("api/aboutDetails")]
+    [Authorize]
     [ApiController]
     public class AboutController : ControllerBase
     {
@@ -22,7 +24,7 @@ namespace Portfolio_API.Controllers
         }
 
         // GET: api/<AboutController>
-        [HttpGet("{id}")]
+        [HttpGet]
         public ActionResult<IEnumerable<AboutDto>> aboutDetails(int id)
         {
             if (id == 0)
