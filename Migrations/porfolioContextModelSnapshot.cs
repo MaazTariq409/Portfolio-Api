@@ -11,7 +11,7 @@ using Portfolio_API.Data;
 namespace Portfolio_API.Migrations
 {
     [DbContext(typeof(PorfolioContext))]
-    partial class porfolioContextModelSnapshot : ModelSnapshot
+    partial class PorfolioContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -90,15 +90,10 @@ namespace Portfolio_API.Migrations
                     b.Property<int>("UserID")
                         .HasColumnType("int");
 
-                    b.Property<int>("aboutId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserID")
                         .IsUnique();
-
-                    b.HasIndex("aboutId");
 
                     b.ToTable("about");
                 });
@@ -137,7 +132,7 @@ namespace Portfolio_API.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("Education");
+                    b.ToTable("educations");
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.Resume", b =>
@@ -180,7 +175,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Skills");
+                    b.ToTable("skills");
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.User", b =>
@@ -221,14 +216,6 @@ namespace Portfolio_API.Migrations
                         .HasForeignKey("Portfolio_API.Models.About", "UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Portfolio_API.Models.About", "about")
-                        .WithMany()
-                        .HasForeignKey("aboutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("about");
 
                     b.Navigation("user");
                 });

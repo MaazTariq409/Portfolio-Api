@@ -12,8 +12,8 @@ using Portfolio_API.Data;
 namespace Portfolio_API.Migrations
 {
     [DbContext(typeof(PorfolioContext))]
-    [Migration("20230502125111_changedAddress")]
-    partial class changedAddress
+    [Migration("20230504080825_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,14 @@ namespace Portfolio_API.Migrations
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -73,39 +81,6 @@ namespace Portfolio_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("addressId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserID")
-                        .IsUnique();
-
-                    b.HasIndex("addressId")
-                        .IsUnique();
-
-                    b.ToTable("about");
-                });
-
-            modelBuilder.Entity("Portfolio_API.Models.Address", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Country")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PostalCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -114,9 +89,15 @@ namespace Portfolio_API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("addresses");
+                    b.HasIndex("UserID")
+                        .IsUnique();
+
+                    b.ToTable("about");
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.Education", b =>
@@ -153,7 +134,7 @@ namespace Portfolio_API.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("Education");
+                    b.ToTable("educations");
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.Resume", b =>
@@ -196,7 +177,7 @@ namespace Portfolio_API.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Skills");
+                    b.ToTable("skills");
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.User", b =>
@@ -238,14 +219,6 @@ namespace Portfolio_API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Portfolio_API.Models.Address", "address")
-                        .WithOne("about")
-                        .HasForeignKey("Portfolio_API.Models.About", "addressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("address");
-
                     b.Navigation("user");
                 });
 
@@ -269,12 +242,6 @@ namespace Portfolio_API.Migrations
                         .IsRequired();
 
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("Portfolio_API.Models.Address", b =>
-                {
-                    b.Navigation("about")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.User", b =>

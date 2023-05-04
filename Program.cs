@@ -19,8 +19,10 @@ namespace Portfolio_API
 
             builder.Services.AddScoped<IUser, UserRepository>();
             builder.Services.AddScoped<IAbout, AboutRepository>();
+			builder.Services.AddScoped<ISkills, SkillsRepository>();
 
-            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+			builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
