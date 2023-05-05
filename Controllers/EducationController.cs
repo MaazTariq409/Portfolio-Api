@@ -24,9 +24,11 @@ namespace Portfolio_API.Controllers
 
         // GET: api/<EducationController>
         [HttpGet]
-        public ActionResult<IEnumerable<EducationDto>> GetEducationDetails(int userid)
+        public ActionResult<IEnumerable<EducationDto>> GetEducationDetails()
         {
-            var educationDetails = _EducationRepository.GetDetails(userid);
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+
+            var educationDetails = _EducationRepository.GetDetails(userId);
             var finalEduDetail = _mapper.Map< IEnumerable<EducationDto>>(educationDetails);
 
             return Ok(finalEduDetail);
@@ -34,8 +36,10 @@ namespace Portfolio_API.Controllers
 
         // POST api/<EducationController>
         [HttpPost]
-        public ActionResult AddEduDetails(int id, EducationDto Edu)
+        public ActionResult AddEduDetails( EducationDto Edu)
         {
+            var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+
             if (id == 0)
             {
                 return NotFound();
@@ -50,8 +54,10 @@ namespace Portfolio_API.Controllers
 
         //// PUT api/<EducationController>/5
         [HttpPut]
-        public ActionResult UpdateEdu(int id, int eduId, EducationDto Edu)
+        public ActionResult UpdateEdu( int eduId, EducationDto Edu)
         {
+            var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+
             if (id == 0 || eduId == 0)
             {
                 return NotFound();
@@ -66,8 +72,10 @@ namespace Portfolio_API.Controllers
 
         // DELETE api/<EducationController>/5
         [HttpDelete]
-        public ActionResult DeleteEdu (int id, int eduId)
+        public ActionResult DeleteEdu (int eduId)
         {
+            var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+
             if (id == 0 || eduId == 0)
             {
                 return NotFound();

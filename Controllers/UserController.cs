@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Portfolio_API.Data;
 using Portfolio_API.DTOs;
 using Portfolio_API.Models;
 using Portfolio_API.Repository.Repository_Interface;
@@ -16,9 +18,12 @@ namespace Portfolio_API.Controllers
         private readonly IUser _userRepository;
         private readonly IMapper _mapper;
         private readonly TokenGeneration _token;
-        private readonly AuthController _auth;
+        private readonly PorfolioContext _context;
 
-        public UserController(IUser UserRepository, IMapper mapper, TokenGeneration token)
+        public UserController(IUser UserRepository, 
+            IMapper mapper, 
+            TokenGeneration token
+            )
         {
             _userRepository = UserRepository;
             _mapper = mapper;
@@ -52,7 +57,7 @@ namespace Portfolio_API.Controllers
         // POST api/<UserController>
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult<string> AddUser (UserDto user)
+        public ActionResult<Tokenmodel> AddUser (UserDto user)
         {
             if (user == null)
             {
@@ -61,16 +66,27 @@ namespace Portfolio_API.Controllers
 
             var finalUser = _mapper.Map<User>(user);
 
+            var userExists = _userRepository.validateUser(finalUser);
+
             // TODO : Existing user 
 
             // TODO : Response should return common
-                // Error : Message, Data, Status
-                // Success : Data, Message, Status
+            // Error : Message, Data, Status
+            // Success : Data, Message, Status
+
+            if (userExists)
+            {
+                return BadRequest();
+            }
+
             _userRepository.addUser(finalUser);
 
             var Token = _token.TokenGenerator(finalUser);
-            //var JsonToken = JsonConvert.SerializeObject(Token);
-            return Ok(Token);
+
+            var tokenToReturn = new Tokenmodel();
+            tokenToReturn.Token = Token;
+
+            return Ok(tokenToReturn);
         }
 
         // PUT api/<UserController>/5

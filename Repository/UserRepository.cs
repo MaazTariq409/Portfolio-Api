@@ -61,5 +61,17 @@ namespace Portfolio_API.Repository
             }
             _context.SaveChanges();
         }
+
+        public bool validateUser(User user)
+        {
+            var userFromDb = _context.user.FirstOrDefault(x => x.Username == user.Username && x.Password == user.Password);
+
+            if (userFromDb != null)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }

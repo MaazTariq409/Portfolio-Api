@@ -13,5 +13,7 @@ namespace Portfolio_API.Repository.Repository_Interface
         public void removeUser(int id);
 
         public void updateUser(int id, User user);
+
+        public bool validateUser(User user);
     }
 }

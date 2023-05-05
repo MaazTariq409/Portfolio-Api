@@ -25,8 +25,10 @@ namespace Portfolio_API.Controllers
 
         // GET: api/<AboutController>
         [HttpGet]
-        public ActionResult<IEnumerable<AboutDto>> aboutDetails(int id)
+        public ActionResult<IEnumerable<AboutDto>> aboutDetails()
         {
+            var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+
             if (id == 0)
             {
                 return NotFound();
@@ -41,9 +43,11 @@ namespace Portfolio_API.Controllers
 
         // POST api/<AboutController>
         [HttpPost]
-        public ActionResult AddAboutDetails (int id, AboutDto about)
+        public ActionResult AddAboutDetails (AboutDto about)
         {
-            if(id == 0)
+            var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+
+            if (id == 0)
             {
                 return NotFound();
             }
@@ -57,8 +61,9 @@ namespace Portfolio_API.Controllers
 
         // PUT api/<AboutController>/5
         [HttpPut]
-        public ActionResult Put(int id, AboutDto about)
+        public ActionResult Put(AboutDto about)
         {
+            var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
             if (id == 0)
             {
                 return NotFound();
@@ -71,8 +76,10 @@ namespace Portfolio_API.Controllers
 
         // DELETE api/<AboutController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult Delete()
         {
+            var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+
             if (id == 0)
             {
                 return NotFound();
