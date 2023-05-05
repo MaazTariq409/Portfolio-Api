@@ -51,8 +51,7 @@ namespace Portfolio_API.Repository
                 {
                     edu.DegreeName = Edu.DegreeName;
                     edu.DegreeLevel = Edu.DegreeLevel;
-                    edu.StartDate = Edu.StartDate;
-                    edu.EndDate = Edu.EndDate;
+                    edu.passingYear = Edu.passingYear;
                     edu.Institute = Edu.Institute;
                     edu.Achievement = Edu.Achievement;
                 }

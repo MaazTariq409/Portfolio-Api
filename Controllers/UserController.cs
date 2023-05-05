@@ -35,7 +35,7 @@ namespace Portfolio_API.Controllers
 
         // GET api/<UserController>/5
         [HttpGet]
-        public ActionResult<User> GetUserById (int id)
+        public ActionResult<User> GetUserById ()
         {
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
             if (userId == 0)
@@ -69,8 +69,8 @@ namespace Portfolio_API.Controllers
             _userRepository.addUser(finalUser);
 
             var Token = _token.TokenGenerator(finalUser);
-            var JsonToken = JsonConvert.SerializeObject(Token);
-            return Ok(JsonToken);
+            //var JsonToken = JsonConvert.SerializeObject(Token);
+            return Ok(Token);
         }
 
         // PUT api/<UserController>/5

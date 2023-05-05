@@ -19,8 +19,10 @@ namespace Portfolio_API.Controllers
             _token = token;
         }
 
+
+
         [HttpPost]
-        public ActionResult<string> userAuthentication(SignIn signIn)
+        public ActionResult<Tokenmodel> userAuthentication(SignIn signIn)
         {
             var user = _token.validateUserInput(signIn.Email, signIn.Password);
 
@@ -29,9 +31,13 @@ namespace Portfolio_API.Controllers
                 return Unauthorized();
             }
 
-            var tokenToReturn = _token.TokenGenerator(user);
 
-            return Ok(tokenToReturn);
+            var tokenToReturn = _token.TokenGenerator(user);
+            var token = new Tokenmodel();
+
+            token.Token= tokenToReturn;
+
+            return Ok(token);
         }
     }
 }

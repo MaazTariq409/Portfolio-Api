@@ -12,10 +12,9 @@ namespace Portfolio_API.Models
         public string DegreeName { get; set; }
         [Required(ErrorMessage = "Please enter a Degree Level")]
         public string DegreeLevel { get; set; }
-        [Required]
-        public string StartDate { get; set; }
-        [Required]
-        public string EndDate { get; set; }
+
+        public string passingYear { get; set; }
+
         [Required(ErrorMessage = "Please enter your grade")]
         public char Grade { get; set; }
         public string Achievement { get; set; }

@@ -67,11 +67,11 @@ namespace Portfolio_API.Repository
             {
                 UserAbout.Name = about.Name;
                 UserAbout.Email = about.Email;
-                UserAbout.Phone = about.Phone;
-                UserAbout.Age = about.Age;
+                UserAbout.Phone = about.PhoneNo;
+                UserAbout.Age = about.Dob;
                 UserAbout.Description = about.Description;
-                UserAbout.ImageUrl = about.ImageUrl;
-                UserAbout.Git = about.Git;
+                UserAbout.ImageUrl = about.ProfileUrl;
+                UserAbout.Git = about.Github;
                 UserAbout.Linkedin = about.Linkedin;
                 UserAbout.Gender = about.Gender;
                 UserAbout.Address = about.Address;

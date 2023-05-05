@@ -4,17 +4,16 @@ namespace Portfolio_API.DTOs
 {
     public class EducationDto
     {
-        public string DegreeName { get; set; }
+        [Required]
+        public string institute { get; set; }
         [Required(ErrorMessage = "Please enter a Degree Level")]
-        public string DegreeLevel { get; set; }
-        [Required]
-        public DateTime StartDate { get; set; }
-        [Required]
-        public DateTime EndDate { get; set; }
+        public string degreeLevel { get; set; }
+        public string degreeName { get; set; }
         [Required(ErrorMessage = "Please enter your grade")]
-        public char Grade { get; set; }
-        public string Achievement { get; set; }
+        public char grade { get; set; }
         [Required]
-        public string Institute { get; set; }
+        public string passingYear { get; set; }
+        public string achievement { get; set; }
+        
     }
 }

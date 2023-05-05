@@ -20,17 +20,15 @@ namespace Portfolio_API.Controllers
         public string TokenGenerator(User user)
         {
 
-            var returnUser = validateUserInput(user.Email, user.Password);
-
             var securityKey = new SymmetricSecurityKey(
                 Encoding.ASCII.GetBytes(_configuration["Authentication:SecretForKey"]));
 
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var TokenClaims = new List<Claim>();
-            TokenClaims.Add(new Claim("UserId", returnUser.Id.ToString()));
-            TokenClaims.Add(new Claim("UserName", returnUser.Username.ToString()));
-            TokenClaims.Add(new Claim("Email", returnUser.Email.ToString()));
+            TokenClaims.Add(new Claim("UserId", user.Id.ToString()));
+            TokenClaims.Add(new Claim("UserName", user.Username.ToString()));
+            TokenClaims.Add(new Claim("Email", user.Email.ToString()));
 
             var jwtSecurityToken = new JwtSecurityToken(
                 _configuration["Authentication:Issuer"],

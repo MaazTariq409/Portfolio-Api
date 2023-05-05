@@ -27,7 +27,7 @@ namespace Portfolio_API.Controllers
 
 		}
 		[HttpGet]
-		public ActionResult<List<Skills>> GetUserSkills()
+		public ActionResult<List<SkillsDto>> GetUserSkills()
 		{
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
             if (userId == 0)
