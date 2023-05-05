@@ -497,3 +497,6 @@ obj/project.assets.json
 obj/Debug/net6.0/Portfolio API.genruntimeconfig.cache
 obj/Debug/net6.0/Portfolio API.genruntimeconfig.cache
 obj/Debug/net6.0/Portfolio API.GeneratedMSBuildEditorConfig.editorconfig
+bin/Debug/net6.0/Portfolio API.exe
+bin/Debug/net6.0/appsettings.json
+appsettings.json
