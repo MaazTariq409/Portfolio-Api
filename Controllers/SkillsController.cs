@@ -18,8 +18,9 @@ namespace Portfolio_API.Controllers
 		private readonly PorfolioContext _context;
 		private readonly ISkills _skillsRepository;
 		private readonly IMapper _mapper;
+		private ResponseObject _responseObject;
 
-		public SkillsController(PorfolioContext context, IMapper mapper, ISkills SkillsRepository )
+		public SkillsController(PorfolioContext context, IMapper mapper, ISkills SkillsRepository)
 		{
 			_context = context;
 			_mapper = mapper;
@@ -29,17 +30,24 @@ namespace Portfolio_API.Controllers
 		[HttpGet]
 		public ActionResult<List<Skills>> GetUserSkills()
 		{
-            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-            if (userId == 0)
+			var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+
+			if (userId == null)
 			{
-				return NotFound();
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+			}
+			else
+			{
+
+				var skillsFromDB = _skillsRepository.GetSkillsByUserID(userId);
+
+				var skillsDto = _mapper.Map<IEnumerable<SkillsDto>>(skillsFromDB);
+
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), null, skillsDto);
+
 			}
 
-			var skillsFromDB = _skillsRepository.GetSkillsByUserID(userId);
-
-			var skillsDto = _mapper.Map<IEnumerable<SkillsDto>>(skillsFromDB);
-
-			return Ok(skillsDto);
+			return Ok(_responseObject);
 
 		}
 
@@ -48,8 +56,8 @@ namespace Portfolio_API.Controllers
 		[HttpPost]
 		public ActionResult AddUserSkill([FromBody] SkillsDto userSkill)
 		{
-            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-            if (userId == 0)
+			var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+			if (userId == 0)
 			{
 				return NotFound();
 			}
@@ -67,8 +75,8 @@ namespace Portfolio_API.Controllers
 		[HttpPut("{skillId}")]
 		public ActionResult UpdateUserSkill(int skillId, [FromBody] SkillsDto userSkill)
 		{
-            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-            if (userId == 0 || skillId == 0)
+			var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+			if (userId == 0 || skillId == 0)
 			{
 				return NotFound();
 			}
@@ -85,9 +93,9 @@ namespace Portfolio_API.Controllers
 		[HttpDelete]
 		public IActionResult DeleteUserSkill(int skillId)
 		{
-            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+			var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-            if (userId == 0 || skillId == 0)
+			if (userId == 0 || skillId == 0)
 			{
 				return NotFound();
 			}
