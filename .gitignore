@@ -496,3 +496,4 @@ obj/Portfolio API.csproj.nuget.g.props
 obj/project.assets.json
 obj/Debug/net6.0/Portfolio API.genruntimeconfig.cache
 obj/Debug/net6.0/Portfolio API.genruntimeconfig.cache
+obj/Debug/net6.0/Portfolio API.GeneratedMSBuildEditorConfig.editorconfig
