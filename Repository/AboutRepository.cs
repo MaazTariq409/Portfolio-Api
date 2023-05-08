@@ -17,26 +17,12 @@ namespace Portfolio_API.Repository
 
         public void AddAbout(int id, About about)
         {
-            var UserAbout = new About();
-            if(about != null)
+            var user = _context.user.Include(x => x.Education).FirstOrDefault(x => x.Id == id);
+            if (user != null)
             {
-                UserAbout.UserID = id;
-                UserAbout.Name = about.Name;
-                UserAbout.Email = about.Email;
-                UserAbout.PhoneNo = about.PhoneNo;
-                UserAbout.Dob = about.Dob;
-                UserAbout.Description = about.Description;
-                UserAbout.ProfileUrl = about.ProfileUrl;
-                UserAbout.Github = about.Github;
-                UserAbout.Linkedin = about.Linkedin;
-                UserAbout.Gender = about.Gender;
-                UserAbout.Address = about.Address;
-                UserAbout.Introduction = about.Introduction;
-                UserAbout.Language = about.Language;
+                user.About = about;
+                _context.SaveChanges();
             }
-
-            _context.about.Add(UserAbout);
-            _context.SaveChanges();
 
         }
 
