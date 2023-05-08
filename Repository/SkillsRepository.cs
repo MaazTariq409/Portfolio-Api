@@ -21,12 +21,14 @@ namespace Portfolio_API.Repository
 			return _context.skills.ToList();
 
 		}
-		public void AddSkillsByUserID(int id, Skills skills)
+		public void AddSkillsByUserID(int id, IEnumerable<Skills> skills)
 		{
 			var users = _context.user.Include(x => x.Skills).FirstOrDefault(x => x.Id == id);
-			users.Skills.Add(skills);
+			foreach (var item in skills)
+			{
+                users.Skills.Add(item);
+            }
 			_context.SaveChanges();
-
 		}
 
 		public void updateSkillsByUserID(int id, int skillId, Skills skill)

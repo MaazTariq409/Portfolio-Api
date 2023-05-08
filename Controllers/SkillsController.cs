@@ -54,7 +54,7 @@ namespace Portfolio_API.Controllers
 
 		//POST api/<SkillsController>
 		[HttpPost]
-		public ActionResult AddUserSkill([FromBody] SkillsDto userSkill)
+		public ActionResult AddUserSkill([FromBody] IEnumerable<SkillsDto> userSkill)
 		{
 			var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 			if (userId == 0)
@@ -62,7 +62,7 @@ namespace Portfolio_API.Controllers
 				return NotFound();
 			}
 
-			var AddSkill = _mapper.Map<Skills>(userSkill);
+			var AddSkill = _mapper.Map<IEnumerable<Skills>>(userSkill);
 
 			_skillsRepository.AddSkillsByUserID(userId, AddSkill);
 

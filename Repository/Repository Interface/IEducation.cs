@@ -7,7 +7,7 @@ namespace Portfolio_API.Repository.Repository_Interface
     {
         public IEnumerable<Education> GetDetails (int id);
 
-        public void AddEducation (int id, Education about);
+        public void AddEducation (int id, IEnumerable<Education> about);
 
         public void removeEducation (int id, int eduId);
 

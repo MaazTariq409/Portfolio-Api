@@ -29,14 +29,14 @@ namespace Portfolio_API.Controllers
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
             var educationDetails = _EducationRepository.GetDetails(userId);
-            var finalEduDetail = _mapper.Map< IEnumerable<EducationDto>>(educationDetails);
+            var finalEduDetail = _mapper.Map<IEnumerable<EducationDto>>(educationDetails);
 
             return Ok(finalEduDetail);
         }
 
         // POST api/<EducationController>
         [HttpPost]
-        public ActionResult AddEduDetails( EducationDto Edu)
+        public ActionResult AddEduDetails(IEnumerable<EducationDto> Edu)
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
@@ -45,7 +45,7 @@ namespace Portfolio_API.Controllers
                 return NotFound();
             }
 
-            var finalEdu = _mapper.Map<Education>(Edu);
+            var finalEdu = _mapper.Map<IEnumerable<Education>>(Edu);
 
             _EducationRepository.AddEducation(id, finalEdu);
 

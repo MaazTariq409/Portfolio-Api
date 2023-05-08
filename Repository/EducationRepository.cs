@@ -23,12 +23,15 @@ namespace Portfolio_API.Repository
             return education;
         }
 
-        public void AddEducation(int id, Education Edu)
+        public void AddEducation(int id, IEnumerable<Education> Edu)
         {
             var user = _context.user.Include(x => x.Education).FirstOrDefault(x => x.Id == id );
             if (user != null)
             {
-                user.Education.Add(Edu);
+                foreach (var item in Edu)
+                {
+                    user.Education.Add(item);
+                }
                 _context.SaveChanges();
             }
         }
