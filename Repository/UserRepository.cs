@@ -64,7 +64,7 @@ namespace Portfolio_API.Repository
 
         public bool validateUser(User user)
         {
-            var userFromDb = _context.user.FirstOrDefault(x => x.Username == user.Username && x.Password == user.Password);
+            var userFromDb = _context.user.FirstOrDefault(x => x.Email == user.Email);
 
             if (userFromDb != null)
             {

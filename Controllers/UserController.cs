@@ -91,7 +91,7 @@ namespace Portfolio_API.Controllers
 
         // PUT api/<UserController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(UserDto user)
+        public ActionResult UpdateUser(UserDto user)
         {
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
             if (userId == 0)
