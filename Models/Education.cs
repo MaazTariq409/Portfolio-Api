@@ -8,18 +8,18 @@ namespace Portfolio_API.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Please enter a Degree Name")]
-        public string DegreeName { get; set; }
-        [Required(ErrorMessage = "Please enter a Degree Level")]
-        public string DegreeLevel { get; set; }
-
-        public string passingYear { get; set; }
-
-        [Required(ErrorMessage = "Please enter your grade")]
-        public char Grade { get; set; }
-        public string Achievement { get; set; }
         [Required]
-        public string Institute { get; set; }
+        public string institute { get; set; }
+        [Required(ErrorMessage = "Please enter a Degree Level")]
+        public string degreeLevel { get; set; }
+
+        [Required(ErrorMessage = "Please enter a Degree Name")]
+        public string degreeName { get; set; }
+        [Required(ErrorMessage = "Please enter your grade")]
+        public string grade { get; set; }
+        [Required]
+        public string passingYear { get; set; }
+        public string achievement { get; set; }
         [ForeignKey("UserID")]
         [ValidateNever]
         public User user { get; set; }

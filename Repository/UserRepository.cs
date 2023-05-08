@@ -55,16 +55,16 @@ namespace Portfolio_API.Repository
             var userFromDB = _context.user.FirstOrDefault(x => x.Id == id);
             if (userFromDB != null)
             {
-                userFromDB.Username = user.Username;
-                userFromDB.Password = user.Password;
-                userFromDB.Email = user.Email;
+                userFromDB.username = user.username;
+                userFromDB.password = user.password;
+                userFromDB.email = user.email;
             }
             _context.SaveChanges();
         }
 
         public bool validateUser(User user)
         {
-            var userFromDb = _context.user.FirstOrDefault(x => x.Email == user.Email);
+            var userFromDb = _context.user.FirstOrDefault(x => x.email == user.email);
 
             if (userFromDb != null)
             {

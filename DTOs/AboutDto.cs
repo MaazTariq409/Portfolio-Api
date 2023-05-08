@@ -15,7 +15,7 @@ namespace Portfolio_API.DTOs
         [Required(ErrorMessage = "Please enter First Name")]
         public string Name { get; set; }
         [Required]
-        public int Dob { get; set; }
+        public string Dob { get; set; }
         [Required(ErrorMessage = "Please enter an Email")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }

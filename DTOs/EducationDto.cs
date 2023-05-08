@@ -10,7 +10,7 @@ namespace Portfolio_API.DTOs
         public string degreeLevel { get; set; }
         public string degreeName { get; set; }
         [Required(ErrorMessage = "Please enter your grade")]
-        public char grade { get; set; }
+        public string grade { get; set; }
         [Required]
         public string passingYear { get; set; }
         public string achievement { get; set; }

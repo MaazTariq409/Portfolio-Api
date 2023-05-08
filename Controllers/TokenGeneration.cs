@@ -27,8 +27,8 @@ namespace Portfolio_API.Controllers
 
             var TokenClaims = new List<Claim>();
             TokenClaims.Add(new Claim("UserId", user.Id.ToString()));
-            TokenClaims.Add(new Claim("UserName", user.Username.ToString()));
-            TokenClaims.Add(new Claim("Email", user.Email.ToString()));
+            TokenClaims.Add(new Claim("UserName", user.username.ToString()));
+            TokenClaims.Add(new Claim("Email", user.email.ToString()));
 
             var jwtSecurityToken = new JwtSecurityToken(
                 _configuration["Authentication:Issuer"],
@@ -46,7 +46,7 @@ namespace Portfolio_API.Controllers
 
         public User validateUserInput(string email, string password)
         {
-            var validUser = _context.user.FirstOrDefault(x => x.Email == email && x.Password == password);
+            var validUser = _context.user.FirstOrDefault(x => x.email == email);
             if (validUser == null)
             {
                 return null;

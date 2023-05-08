@@ -49,11 +49,11 @@ namespace Portfolio_API.Repository
                 var edu = user.Education.FirstOrDefault(x => x.Id == eduId);
                 if (edu != null)
                 {
-                    edu.DegreeName = Edu.DegreeName;
-                    edu.DegreeLevel = Edu.DegreeLevel;
+                    edu.degreeName = Edu.degreeName;
+                    edu.degreeLevel = Edu.degreeLevel;
                     edu.passingYear = Edu.passingYear;
-                    edu.Institute = Edu.Institute;
-                    edu.Achievement = Edu.Achievement;
+                    edu.institute = Edu.institute;
+                    edu.achievement = Edu.achievement;
                 }
                 _context.SaveChanges();
             }

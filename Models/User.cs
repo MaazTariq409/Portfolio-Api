@@ -7,17 +7,15 @@ namespace Portfolio_API.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required(ErrorMessage = "Please enter a Username")]
-        
-        public string Username { get; set; }
+        public string username { get; set; }
         [Required(ErrorMessage = "Please enter an Email")]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
-        
+        public string email { get; set; }
         [Required(ErrorMessage = "Password is required")]
         [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
-        public string Password { get; set; }
-        
+        public string password { get; set; }
 
         public About About { get; set; }
         [ValidateNever]
