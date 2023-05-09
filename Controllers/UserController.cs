@@ -93,7 +93,7 @@ namespace Portfolio_API.Controllers
             var tokenToReturn = new Tokenmodel();
             tokenToReturn.Token = Token;
 
-            _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "User Added Successfully", tokenToReturn);
+            _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "User Added Successfully", tokenToReturn);
 
             return Ok(_responseObject);
         }

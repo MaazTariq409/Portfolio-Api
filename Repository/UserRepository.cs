@@ -67,10 +67,7 @@ namespace Portfolio_API.Repository
             var userFromDb = _context.user.FirstOrDefault(x => x.email == user.email);
             if (userFromDb != null)
             {
-                if (userFromDb.password == user.password)
-                {
-                    return true;
-                }
+                return true;
             }
 
             return false;
