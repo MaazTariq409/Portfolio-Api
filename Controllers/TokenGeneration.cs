@@ -47,11 +47,11 @@ namespace Portfolio_API.Controllers
         public User validateUserInput(string email, string password)
         {
             var validUser = _context.user.FirstOrDefault(x => x.email == email);
-            if (validUser == null)
+            if(validUser.password == password)
             {
-                return null;
+                return validUser;
             }
-            return validUser;
+                return null;
         }
     }
 }
