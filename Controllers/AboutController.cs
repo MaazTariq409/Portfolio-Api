@@ -16,10 +16,8 @@ namespace Portfolio_API.Controllers
     {
         private readonly IAbout _userRepository;
         private readonly IMapper _mapper;
-		private ResponseObject _responseObject;
 
-
-		public AboutController(IAbout UserRepository, IMapper mapper)
+        public AboutController(IAbout UserRepository, IMapper mapper)
         {
             _userRepository = UserRepository;
             _mapper = mapper;
@@ -31,18 +29,16 @@ namespace Portfolio_API.Controllers
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-            if (id == null)
+            if (id == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-            else
-            {
-				var aboutFromDB = _userRepository.GetAbout(id);
+                return NotFound();
+            }
 
-				var AboutDto = _mapper.Map<AboutDto>(aboutFromDB);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), null, AboutDto);
-			}
-			return Ok(_responseObject);
+            var aboutFromDB = _userRepository.GetAbout(id);
+
+            var AboutDto = _mapper.Map<AboutDto>(aboutFromDB);
+
+            return Ok(AboutDto);
         }
 
         // POST api/<AboutController>
@@ -51,19 +47,16 @@ namespace Portfolio_API.Controllers
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-            if (id == null)
+            if (id == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-            else
-            {
-				var finalAbout = _mapper.Map<About>(about);
+                return NotFound();
+            }
 
-				_userRepository.AddAbout(id, finalAbout);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), null, finalAbout);
-			}
+            var finalAbout = _mapper.Map<About>(about);
 
-			return Ok(_responseObject);
+            _userRepository.AddAbout(id, finalAbout);
+
+            return Ok();
         }
 
         // PUT api/<AboutController>/5
@@ -71,18 +64,14 @@ namespace Portfolio_API.Controllers
         public ActionResult Put(AboutDto about)
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-            if (id == null)
+            if (id == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-            else
-            {
-				_userRepository.updateAbout(id, about);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Result updated successfully");
-			}
-			//var finalAbout = _mapper.Map<About>(about);
+                return NotFound();
+            }
+            //var finalAbout = _mapper.Map<About>(about);
 
-			return Ok(_responseObject);
+            _userRepository.updateAbout(id, about);
+            return Ok();
         }
 
         // DELETE api/<AboutController>/5
@@ -91,17 +80,13 @@ namespace Portfolio_API.Controllers
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-            if (id == null)
+            if (id == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-            else
-            {
-				_userRepository.removeAbout(id);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Result Deleted successfully");
+                return NotFound();
+            }
 
-			}
-			return Ok(_responseObject);
+            _userRepository.removeAbout(id);
+            return Ok();
         }
     }
 }
