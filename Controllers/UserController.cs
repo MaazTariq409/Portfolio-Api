@@ -18,7 +18,6 @@ namespace Portfolio_API.Controllers
         private readonly IUser _userRepository;
         private readonly IMapper _mapper;
         private readonly TokenGeneration _token;
-        private readonly PorfolioContext _context;
 
         public UserController(IUser UserRepository, 
             IMapper mapper, 
