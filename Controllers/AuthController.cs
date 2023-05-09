@@ -29,7 +29,7 @@ namespace Portfolio_API.Controllers
 
             if (user == null)
             {
-                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Unauthorized.ToString(), "User Unauthorized");
+                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "User Unauthorized");
                 return Unauthorized(_responseInfo);
             }
 
@@ -37,7 +37,7 @@ namespace Portfolio_API.Controllers
             var token = new Tokenmodel();
             token.Token = tokenToReturn;
 
-            _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Authorized.ToString(), "Login Succesfull", token);
+            _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Login Succesfull", token);
             return Ok(_responseObject);
         }
     }
