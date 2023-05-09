@@ -18,7 +18,6 @@ namespace Portfolio_API.Controllers
         private readonly ISkills _skillsRepository;
         private readonly IMapper _mapper;
         private ResponseObject _responseObject;
-        private ResponseInfo _responseInfo;
 
         public SkillsController( IMapper mapper, ISkills SkillsRepository)
         {
@@ -33,8 +32,8 @@ namespace Portfolio_API.Controllers
 
             if (userId == null)
             {
-                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-                return NotFound(_responseInfo);
+                _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseObject);
             }
 
 
@@ -57,16 +56,16 @@ namespace Portfolio_API.Controllers
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
             if (userId == 0)
             {
-                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-                return NotFound(_responseInfo);
+                _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseObject);
             }
 
             var AddSkill = _mapper.Map<IEnumerable<Skills>>(userSkill);
 
             _skillsRepository.AddSkillsByUserID(userId, AddSkill);
-            _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skilled Added Succesfully");
+            _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skilled Added Succesfully");
 
-            return Ok(_responseInfo);
+            return Ok(_responseObject);
 
         }
 
@@ -77,16 +76,16 @@ namespace Portfolio_API.Controllers
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
             if (userId == 0 || skillId == 0)
             {
-                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-                return NotFound(_responseInfo);
+                _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseObject);
             }
 
             var updateskills = _mapper.Map<Skills>(userSkill);
 
             _skillsRepository.updateSkillsByUserID(userId, skillId, updateskills);
-            _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Updated succesfully");
+            _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Updated succesfully");
 
-            return Ok(_responseInfo);
+            return Ok(_responseObject);
 
         }
 
@@ -98,14 +97,14 @@ namespace Portfolio_API.Controllers
 
             if (userId == 0 || skillId == 0)
             {
-                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-                return NotFound(_responseInfo);
+                _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseObject);
             }
 
             _skillsRepository.removeSkillsByUserID(userId, skillId);
-            _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Deleted successfully");
+            _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Deleted successfully");
 
-            return Ok(_responseInfo);
+            return Ok(_responseObject);
 
         }
     }

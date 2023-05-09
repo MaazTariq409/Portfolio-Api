@@ -13,7 +13,6 @@ namespace Portfolio_API.Controllers
         private readonly IConfiguration _configuration;
         private readonly TokenGeneration _token;
 		private ResponseObject _responseObject;
-        private ResponseInfo _responseInfo;
 
 		public AuthController(PorfolioContext context, IConfiguration configuration, TokenGeneration token)
         {
@@ -29,8 +28,8 @@ namespace Portfolio_API.Controllers
 
             if (user == null)
             {
-                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "User Unauthorized");
-                return Unauthorized(_responseInfo);
+                _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "User Unauthorized");
+                return Unauthorized(_responseObject);
             }
 
             var tokenToReturn = _token.TokenGenerator(user);

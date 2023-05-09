@@ -17,18 +17,18 @@
             return responseObject;
 		}
 
-		public static ResponseInfo GenerateResponse(string code, string message)
-		{
-			ResponseInfo responseObject = new ResponseInfo();
+		//public static ResponseInfo GenerateResponse(string code, string message)
+		//{
+		//	ResponseInfo responseObject = new ResponseInfo();
 
 
 
-			responseObject.Code = code;
-			responseObject.Message = message;
+		//	responseObject.Code = code;
+		//	responseObject.Message = message;
 
 
 
-			return responseObject;
-		}
+		//	return responseObject;
+		//}
 	}
 }

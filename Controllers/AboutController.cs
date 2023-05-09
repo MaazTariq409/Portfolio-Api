@@ -17,7 +17,6 @@ namespace Portfolio_API.Controllers
         private readonly IAbout _userRepository;
         private readonly IMapper _mapper;
 		private ResponseObject _responseObject;
-        private ResponseInfo _responseInfo;
 
 
 		public AboutController(IAbout UserRepository, IMapper mapper)
@@ -34,8 +33,8 @@ namespace Portfolio_API.Controllers
 
             if (id == 0)
             {
-				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-                return NotFound(_responseInfo);
+                _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseObject);
 			}
             else
             {
@@ -55,8 +54,8 @@ namespace Portfolio_API.Controllers
 
             if (id == 0)
             {
-				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-                return NotFound(_responseInfo);
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseObject);
 			}
             else
             {
@@ -66,12 +65,12 @@ namespace Portfolio_API.Controllers
 
                 if(aboutAdded)
                 {
-                    _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "About Details Added Succesfully");
+                    _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "About Details Added Succesfully");
                 }
 				else
                 {
-                    _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "About Details already Exists");
-                    return BadRequest(_responseInfo);
+                    _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "About Details already Exists");
+                    return BadRequest(_responseObject);
                 }
                     
             }
@@ -86,16 +85,16 @@ namespace Portfolio_API.Controllers
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
             if (id == 0)
             {
-				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
 			}
             else
             {
 				_userRepository.updateAbout(id, about);
-				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "About Details updated successfully");
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "About Details updated successfully");
 			}
 			//var finalAbout = _mapper.Map<About>(about);
 
-			return Ok(_responseInfo);
+			return Ok(_responseObject);
         }
 
         // DELETE api/<AboutController>/5
@@ -106,15 +105,15 @@ namespace Portfolio_API.Controllers
 
             if (id == 0)
             {
-				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
 			}
             else
             {
 				_userRepository.removeAbout(id);
-				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "About Details successfully");
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "About Details successfully");
 
 			}
-			return Ok(_responseInfo);
+			return Ok(_responseObject);
         }
     }
 }
