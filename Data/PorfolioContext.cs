@@ -16,6 +16,9 @@ namespace Portfolio_API.Data
         public DbSet<Resume> resume { get; set; }
         public DbSet<Skills> skills { get; set; }
         public DbSet<Education> educations { get; set; }
+        public DbSet<Experience> experience { get; set; }
+        public DbSet<Projects> projects { get; set; }
+        public DbSet<Hobbies> hobbies { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
