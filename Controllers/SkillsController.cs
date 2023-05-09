@@ -43,7 +43,7 @@ namespace Portfolio_API.Controllers
 
 				var skillsDto = _mapper.Map<IEnumerable<SkillsDto>>(skillsFromDB);
 
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), null, skillsDto);
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills List");
 
 			}
 
@@ -66,7 +66,7 @@ namespace Portfolio_API.Controllers
 				var AddSkill = _mapper.Map<Skills>(userSkill);
 
 				_skillsRepository.AddSkillsByUserID(userId, AddSkill);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), null, AddSkill );
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(),"Skills Created" );
 			}
 			return Ok(_responseObject);
 
@@ -86,7 +86,7 @@ namespace Portfolio_API.Controllers
 				var updateskills = _mapper.Map<Skills>(userSkill);
 
 				_skillsRepository.updateSkillsByUserID(userId, skillId, updateskills);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), null, updateskills);
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Updated");
 			}
 			return Ok(_responseObject);
 
@@ -105,7 +105,7 @@ namespace Portfolio_API.Controllers
 			else
 			{
 				_skillsRepository.removeSkillsByUserID(userId, skillId);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Data deleted successfully");
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Deleted successfully");
 			}
 			return Ok(_responseObject);
 
