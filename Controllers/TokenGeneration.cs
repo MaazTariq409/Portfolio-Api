@@ -47,9 +47,12 @@ namespace Portfolio_API.Controllers
         public User validateUserInput(string email, string password)
         {
             var validUser = _context.user.FirstOrDefault(x => x.email == email);
-            if(validUser.password == password)
+            if (validUser != null)
             {
-                return validUser;
+                if (validUser.password == password)
+                {
+                    return validUser;
+                }
             }
                 return null;
         }
