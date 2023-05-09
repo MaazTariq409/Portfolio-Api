@@ -31,7 +31,7 @@ namespace Portfolio_API.Controllers
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-            if (id == 0)
+            if (!_userRepository.checkAbout(id))
             {
                 _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
                 return NotFound(_responseObject);

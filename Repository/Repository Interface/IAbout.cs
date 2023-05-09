@@ -12,5 +12,7 @@ namespace Portfolio_API.Repository.Repository_Interface
         public void removeAbout (int id);
 
         public void updateAbout (int id, AboutDto about);
+
+        public bool checkAbout (int id);
     }
 }

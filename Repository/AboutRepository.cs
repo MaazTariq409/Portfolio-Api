@@ -26,6 +26,16 @@ namespace Portfolio_API.Repository
             return false;
         }
 
+        public bool checkAbout(int id)
+        {
+            var user = _context.user.Include(x =>x.About).FirstOrDefault(x => x.Id == id);
+            if (user.About == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public About GetAbout(int id)
         {
             var UserAbout = _context.about.FirstOrDefault(x => x.UserID == id);
