@@ -15,21 +15,20 @@ namespace Portfolio_API.Repository
             _context = context;
         }
 
-        public void AddAbout(int id, About about)
+        public bool AddAbout(int id, About about)
         {
-            var user = _context.user.Include(x => x.Education).FirstOrDefault(x => x.Id == id);
-            if (user != null)
+            var user = _context.user.Include(x => x.About).FirstOrDefault(x => x.Id == id);
+            if (user.About == null)
             {
                 user.About = about;
                 _context.SaveChanges();
             }
-
+            return false;
         }
 
         public About GetAbout(int id)
         {
-            var UserAbout = _context.about.FirstOrDefault(x => x.Id == id);
-
+            var UserAbout = _context.about.FirstOrDefault(x => x.UserID == id);
             return UserAbout;
         }
 

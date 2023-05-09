@@ -18,8 +18,7 @@ namespace Portfolio_API.Repository
 		}
 		public IEnumerable<Skills> GetSkillsByUserID(int id)
 		{
-			return _context.skills.ToList();
-
+			return _context.skills.Where(x => x.UserID == id).ToList();
 		}
 		public void AddSkillsByUserID(int id, IEnumerable<Skills> skills)
 		{

@@ -7,7 +7,7 @@ namespace Portfolio_API.Repository.Repository_Interface
     {
         public About GetAbout (int id);
 
-        public void AddAbout (int id, About about);
+        public bool AddAbout (int id, About about);
 
         public void removeAbout (int id);
 

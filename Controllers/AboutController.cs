@@ -17,6 +17,7 @@ namespace Portfolio_API.Controllers
         private readonly IAbout _userRepository;
         private readonly IMapper _mapper;
 		private ResponseObject _responseObject;
+        private ResponseInfo _responseInfo;
 
 
 		public AboutController(IAbout UserRepository, IMapper mapper)
@@ -31,16 +32,17 @@ namespace Portfolio_API.Controllers
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-            if (id == null)
+            if (id == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseInfo);
 			}
             else
             {
 				var aboutFromDB = _userRepository.GetAbout(id);
 
 				var AboutDto = _mapper.Map<AboutDto>(aboutFromDB);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), null, AboutDto);
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Request Succesfull", AboutDto);
 			}
 			return Ok(_responseObject);
         }
@@ -51,17 +53,28 @@ namespace Portfolio_API.Controllers
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-            if (id == null)
+            if (id == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseInfo);
 			}
             else
             {
 				var finalAbout = _mapper.Map<About>(about);
 
-				_userRepository.AddAbout(id, finalAbout);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), null, finalAbout);
-			}
+				var aboutAdded = _userRepository.AddAbout(id, finalAbout);
+
+                if(aboutAdded)
+                {
+                    _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "About Details Added Succesfully");
+                }
+				else
+                {
+                    _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "About Details already Exists");
+                    return BadRequest(_responseInfo);
+                }
+                    
+            }
 
 			return Ok(_responseObject);
         }
@@ -71,18 +84,18 @@ namespace Portfolio_API.Controllers
         public ActionResult Put(AboutDto about)
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-            if (id == null)
+            if (id == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
 			}
             else
             {
 				_userRepository.updateAbout(id, about);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Result updated successfully");
+				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "About Details updated successfully");
 			}
 			//var finalAbout = _mapper.Map<About>(about);
 
-			return Ok(_responseObject);
+			return Ok(_responseInfo);
         }
 
         // DELETE api/<AboutController>/5
@@ -91,17 +104,17 @@ namespace Portfolio_API.Controllers
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-            if (id == null)
+            if (id == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
 			}
             else
             {
 				_userRepository.removeAbout(id);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Result Deleted successfully");
+				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "About Details successfully");
 
 			}
-			return Ok(_responseObject);
+			return Ok(_responseInfo);
         }
     }
 }

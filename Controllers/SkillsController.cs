@@ -10,105 +10,103 @@ using Portfolio_API.Repository.Repository_Interface;
 
 namespace Portfolio_API.Controllers
 {
-	[Route("api/skills")]
-	[Authorize]
-	[ApiController]
-	public class SkillsController : ControllerBase
-	{
-		private readonly PorfolioContext _context;
-		private readonly ISkills _skillsRepository;
-		private readonly IMapper _mapper;
-		private ResponseObject _responseObject;
+    [Route("api/skills")]
+    [Authorize]
+    [ApiController]
+    public class SkillsController : ControllerBase
+    {
+        private readonly ISkills _skillsRepository;
+        private readonly IMapper _mapper;
+        private ResponseObject _responseObject;
+        private ResponseInfo _responseInfo;
 
-		public SkillsController(PorfolioContext context, IMapper mapper, ISkills SkillsRepository)
-		{
-			_context = context;
-			_mapper = mapper;
-			_skillsRepository = SkillsRepository;
+        public SkillsController( IMapper mapper, ISkills SkillsRepository)
+        {
+            _mapper = mapper;
+            _skillsRepository = SkillsRepository;
 
-		}
-		[HttpGet]
-		public ActionResult<List<SkillsDto>> GetUserSkills()
-		{
-			var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+        }
+        [HttpGet]
+        public ActionResult<List<SkillsDto>> GetUserSkills()
+        {
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
 
-			if (userId == null)
-			{
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-			else
-			{
-
-				var skillsFromDB = _skillsRepository.GetSkillsByUserID(userId);
-
-				var skillsDto = _mapper.Map<IEnumerable<SkillsDto>>(skillsFromDB);
-
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills List");
-
-			}
-
-			return Ok(_responseObject);
-
-		}
+            if (userId == null)
+            {
+                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseInfo);
+            }
 
 
-		//POST api/<SkillsController>
-		[HttpPost]
-		public ActionResult AddUserSkill([FromBody] SkillsDto userSkill)
-		{
-			var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-			if (userId == null)
-			{
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-			else
-			{
-				var AddSkill = _mapper.Map<Skills>(userSkill);
+            var skillsFromDB = _skillsRepository.GetSkillsByUserID(userId);
 
-				_skillsRepository.AddSkillsByUserID(userId, AddSkill);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(),"Skills Created" );
-			}
-			return Ok(_responseObject);
+            var skillsDto = _mapper.Map<IEnumerable<SkillsDto>>(skillsFromDB);
 
-		}
+            _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Request Succesfull", skillsDto);
 
 
-		[HttpPut("{skillId}")]
-		public ActionResult UpdateUserSkill(int skillId, [FromBody] SkillsDto userSkill)
-		{
-			var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-			if (userId == null || skillId == null)
-			{
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-			else
-			{
-				var updateskills = _mapper.Map<Skills>(userSkill);
+            return Ok(_responseObject);
 
-				_skillsRepository.updateSkillsByUserID(userId, skillId, updateskills);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Updated");
-			}
-			return Ok(_responseObject);
-
-		}
+        }
 
 
-		[HttpDelete]
-		public IActionResult DeleteUserSkill(int skillId)
-		{
-			var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+        //POST api/<SkillsController>
+        [HttpPost]
+        public ActionResult AddUserSkill([FromBody] IEnumerable<SkillsDto> userSkill)
+        {
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+            if (userId == 0)
+            {
+                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseInfo);
+            }
 
-			if (userId == null || skillId == null)
-			{
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-			else
-			{
-				_skillsRepository.removeSkillsByUserID(userId, skillId);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Deleted successfully");
-			}
-			return Ok(_responseObject);
+            var AddSkill = _mapper.Map<IEnumerable<Skills>>(userSkill);
 
-		}
-	}
+            _skillsRepository.AddSkillsByUserID(userId, AddSkill);
+            _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skilled Added Succesfully");
+
+            return Ok(_responseInfo);
+
+        }
+
+
+        [HttpPut("{skillId}")]
+        public ActionResult UpdateUserSkill(int skillId, [FromBody] SkillsDto userSkill)
+        {
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+            if (userId == 0 || skillId == 0)
+            {
+                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseInfo);
+            }
+
+            var updateskills = _mapper.Map<Skills>(userSkill);
+
+            _skillsRepository.updateSkillsByUserID(userId, skillId, updateskills);
+            _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Updated succesfully");
+
+            return Ok(_responseInfo);
+
+        }
+
+
+        [HttpDelete]
+        public IActionResult DeleteUserSkill(int skillId)
+        {
+            var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
+
+            if (userId == 0 || skillId == 0)
+            {
+                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseInfo);
+            }
+
+            _skillsRepository.removeSkillsByUserID(userId, skillId);
+            _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "Skills Deleted successfully");
+
+            return Ok(_responseInfo);
+
+        }
+    }
 }

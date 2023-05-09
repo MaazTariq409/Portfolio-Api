@@ -18,10 +18,10 @@ namespace Portfolio_API.Controllers
         private readonly IUser _userRepository;
         private readonly IMapper _mapper;
         private readonly TokenGeneration _token;
-        private readonly PorfolioContext _context;
-		private ResponseObject _responseObject;
+        private ResponseObject _responseObject;
+        private ResponseInfo _responseInfo;
 
-		public UserController(IUser UserRepository, 
+        public UserController(IUser UserRepository, 
             IMapper mapper, 
             TokenGeneration token
             )
@@ -41,18 +41,18 @@ namespace Portfolio_API.Controllers
 
         // GET api/<UserController>/5
         [HttpGet]
-        public ActionResult<User> GetUserById ()
+        public ActionResult<User> GetUserDetials ()
         {
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
             if (userId == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Unauthorized.ToString(), "User Unauthorized");
-
+				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "User not Found");
+                return NotFound(_responseInfo);
             }
             else
             {
 				var users = _userRepository.GetUserById(userId, false);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Authorized.ToString(), "Users");
+				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Authorized.ToString(), "Request Successfull", users);
 			}
 
 			return Ok(_responseObject);
@@ -66,7 +66,8 @@ namespace Portfolio_API.Controllers
         {
             if (user == null)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+				_responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "User not found");
+                return NotFound(_responseInfo);
 			}
 
 			var finalUser = _mapper.Map<User>(user);
@@ -91,7 +92,9 @@ namespace Portfolio_API.Controllers
             var tokenToReturn = new Tokenmodel();
             tokenToReturn.Token = Token;
 
-            return Ok(tokenToReturn);
+            _responseObject = ResponseBuilder.GenerateResponse(ResultCode.Authorized.ToString(), "Request Successfull", tokenToReturn);
+
+            return Ok(_responseObject);
         }
 
         // PUT api/<UserController>/5
@@ -99,39 +102,34 @@ namespace Portfolio_API.Controllers
         public ActionResult UpdateUser(UserDto user)
         {
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-            if (userId == null)
+            if (userId == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-            else
-            {
-				var users = _mapper.Map<User>(user);
+                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseInfo);
+            }
 
-				_userRepository.updateUser(userId, users);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "User Info updated successfully");
+            var users = _mapper.Map<User>(user);
 
-			}
+            _userRepository.updateUser(userId, users);
+            _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "User Info updated successfully");
 
-			return Ok(_responseObject);
+            return Ok(_responseInfo);
         }
 
         // DELETE api/<UserController>/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteUser ()
+        public ActionResult DeleteUser()
         {
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-            if (userId == null)
+            if (userId == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-            else
-            {
-				_userRepository.removeUser(userId);
+                _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
+                return NotFound(_responseInfo);
+            }
 
-
-			}
-
-			return Ok();
+            _userRepository.removeUser(userId);
+            _responseInfo = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "User Deleted successfully");
+            return Ok(_responseInfo);
         }
     }
 }
