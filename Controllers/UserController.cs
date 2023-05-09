@@ -19,9 +19,8 @@ namespace Portfolio_API.Controllers
         private readonly IMapper _mapper;
         private readonly TokenGeneration _token;
         private readonly PorfolioContext _context;
-		private ResponseObject _responseObject;
 
-		public UserController(IUser UserRepository, 
+        public UserController(IUser UserRepository, 
             IMapper mapper, 
             TokenGeneration token
             )
@@ -46,16 +45,12 @@ namespace Portfolio_API.Controllers
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
             if (userId == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Unauthorized.ToString(), "User Unauthorized");
-
+                return Unauthorized();
             }
-            else
-            {
-				var users = _userRepository.GetUserById(userId, false);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Authorized.ToString(), "Users");
-			}
 
-			return Ok(_responseObject);
+            var users = _userRepository.GetUserById(userId, false);
+
+            return Ok(users);
         }
 
 
@@ -66,10 +61,10 @@ namespace Portfolio_API.Controllers
         {
             if (user == null)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
+                return NotFound();
+            }
 
-			var finalUser = _mapper.Map<User>(user);
+            var finalUser = _mapper.Map<User>(user);
 
             var userExists = _userRepository.validateUser(finalUser);
 
@@ -99,20 +94,16 @@ namespace Portfolio_API.Controllers
         public ActionResult UpdateUser(UserDto user)
         {
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-            if (userId == null)
+            if (userId == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-            else
-            {
-				var users = _mapper.Map<User>(user);
+                return NotFound();
+            }
 
-				_userRepository.updateUser(userId, users);
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Success.ToString(), "User Info updated successfully");
+            var users = _mapper.Map<User>(user);
 
-			}
+            _userRepository.updateUser(userId, users);
 
-			return Ok(_responseObject);
+            return Ok();
         }
 
         // DELETE api/<UserController>/5
@@ -120,18 +111,14 @@ namespace Portfolio_API.Controllers
         public ActionResult DeleteUser ()
         {
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);
-            if (userId == null)
+            if (userId == 0)
             {
-				_responseObject = ResponseBuilder.GenerateResponse(ResultCode.Failure.ToString(), "Result not found");
-			}
-            else
-            {
-				_userRepository.removeUser(userId);
+                return NotFound();
+            }
 
+            _userRepository.removeUser(userId);
 
-			}
-
-			return Ok();
+            return Ok();
         }
     }
 }

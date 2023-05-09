@@ -2,7 +2,5 @@
 {
 	Failure,
 	Success,
-	Pending,
-	Authorized,
-	Unauthorized
+	Pending
 }
