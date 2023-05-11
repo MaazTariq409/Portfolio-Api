@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 using Portfolio_API.Data;
 using Portfolio_API.DTOs;
 using Portfolio_API.Models;
@@ -6,75 +8,61 @@ using Portfolio_API.Repository.Repository_Interface;
 
 namespace Portfolio_API.Repository
 {
-    public class AboutRepository : IAbout
-    {
-        private readonly PorfolioContext _context;
+	public class UserExperienceRepository : IUserExperience
+	{
+		private readonly PorfolioContext _context;
+		public UserExperienceRepository(PorfolioContext context)
+		{
+			_context = context;
 
-        public AboutRepository(PorfolioContext context)
-        {
-            _context = context;
-        }
+		}
 
-        public bool AddAbout(int id, About about)
-        {
-            var user = _context.user.Include(x => x.About).FirstOrDefault(x => x.Id == id);
-            if (user.About == null)
-            {
-                user.About = about;
-                _context.SaveChanges();
+		public IEnumerable<UserExperience> GetUserExperience(int userid)
+		{
+			return _context.userExperiences.Where(x => x.userID == userid).ToList();
+		}
+
+		public void AddUserExperience (int userid, IEnumerable<UserExperience> userExperiences)
+		{
+			var users = _context.user.Include(x => x.UserExperiences).FirstOrDefault(x => x.Id == userid);
+			foreach (var experience in userExperiences)
+			{
+                users.UserExperiences.Add(experience);
             }
-            return false;
-        }
+			_context.SaveChanges();
+		}
 
-        public bool checkAbout(int id)
-        {
-            var user = _context.user.Include(x =>x.About).FirstOrDefault(x => x.Id == id);
-            if (user.About == null)
-            {
-                return false;
+		public void UpdateUserExperience(int id, int userExperienceid, UserExperience userExperience)
+		{
+			var user = _context.user.Include(x => x.UserExperiences).FirstOrDefault(x => x.Id == id);
+			if (user != null)
+			{
+				var _Findexperience = user.UserExperiences.FirstOrDefault(x => x.Id == userExperienceid);
+
+				if (_Findexperience != null)
+				{
+					_Findexperience.jobTitle = userExperience.jobTitle;
+					_Findexperience.responsibility = userExperience.responsibility;
+					_Findexperience.companyName = userExperience.companyName;
+                    _Findexperience.duration = userExperience.duration;
+
+                }
+				_context.SaveChanges();
+			}
+		}
+
+		public void RemoveUserExperience(int id, int userexperienceid)
+		{
+			var users = _context.user.Include(x => x.UserExperiences).FirstOrDefault(x => x.Id == userexperienceid);
+			if (users != null)
+			{
+                var experience = users.UserExperiences.FirstOrDefault(x => x.Id == userexperienceid);
+                if (experience != null)
+                {
+                    _context.Remove(experience);
+                    _context.SaveChanges();
+                }
             }
-            return true;
-        }
-
-        public About GetAbout(int id)
-        {
-            var UserAbout = _context.about.FirstOrDefault(x => x.UserID == id);
-            return UserAbout;
-        }
-
-        public void removeAbout(int id)
-        {
-            var UserAbout = _context.about.FirstOrDefault(x => x.UserID == id);
-            if (UserAbout != null)
-            {
-                _context.Remove(UserAbout);
-                _context.SaveChanges();
-            }
-        }
-
-        public void updateAbout(int id, AboutDto about)
-        {
-            //var UserAbout = _context.about.Where(x => x.Id == id).Include(x => x.address).ToList();
-
-            var UserAbout = _context.about.FirstOrDefault(x => x.UserID == id);
-
-            if (UserAbout != null)
-            {
-                UserAbout.Name = about.Name;
-                UserAbout.Email = about.Email;
-                UserAbout.PhoneNo = about.PhoneNo;
-                UserAbout.Dob = about.Dob;
-                UserAbout.Description = about.Description;
-                UserAbout.ProfileUrl = about.ProfileUrl;
-                UserAbout.Github = about.Github;
-                UserAbout.Linkedin = about.Linkedin;
-                UserAbout.Gender = about.Gender;
-                UserAbout.Address = about.Address;
-                UserAbout.Introduction = about.Introduction;
-                UserAbout.Language = about.Language;
-
-                _context.SaveChanges();
-            }
-        }
-    }
+		}
+	}
 }

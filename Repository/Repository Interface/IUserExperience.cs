@@ -3,16 +3,14 @@ using Portfolio_API.Models;
 
 namespace Portfolio_API.Repository.Repository_Interface
 {
-    public interface IAbout
+    public interface IUserExperience
     {
-        public About GetAbout (int id);
+        public IEnumerable<UserExperience> GetUserExperience(int userid);
 
-        public bool AddAbout (int id, About about);
+        public void AddUserExperience(int userid, IEnumerable<UserExperience> userExperiences);
 
-        public void removeAbout (int id);
+        public void RemoveUserExperience(int userid, int removeUserExperienceId);
 
-        public void updateAbout (int id, AboutDto about);
-
-        public bool checkAbout (int id);
+        public void UpdateUserExperience(int id, int removeUserExperienceId, UserExperience userExperience);
     }
 }

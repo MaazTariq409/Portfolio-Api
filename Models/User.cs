@@ -22,5 +22,7 @@ namespace Portfolio_API.Models
         public List<Education> Education { get; set; }
         [ValidateNever]
         public List<Skills> Skills { get; set; }
+        [ValidateNever]
+        public List<UserExperience> UserExperiences { get; set; }
     }
 }

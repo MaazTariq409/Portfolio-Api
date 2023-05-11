@@ -1,17 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Portfolio_API.Models
 {
-    public class Experience
+    public class UserExperience
     {
         [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Please enter a company")]
-        public string CompanyName { get; set; }
-        [Required(ErrorMessage = "Please enter a Job Title")]
-        public string JobTitle { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        [Required]
+        public string companyName { get; set; }
+        [Required]
+        public string jobTitle { get; set; }
+        public string responsibility { get; set; }
+        public string duration { get; set; }
+
+        [ForeignKey("userID")]
+        [ValidateNever]
+        public User user { get; set; }
+        public int userID { get; set; }
     }
 }
