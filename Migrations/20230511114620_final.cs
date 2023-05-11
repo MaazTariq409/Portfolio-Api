@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Portfolio_API.Migrations
 {
-    public partial class Initial : Migration
+    public partial class final : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,10 +27,9 @@ namespace Portfolio_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    ConfirmPassword = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    password = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,18 +42,18 @@ namespace Portfolio_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Age = table.Column<int>(type: "int", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProfileUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Introduction = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Dob = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Linkedin = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Git = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Github = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -75,13 +73,12 @@ namespace Portfolio_API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DegreeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DegreeLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Grade = table.Column<string>(type: "nvarchar(1)", nullable: false),
-                    Achievement = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Institute = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    institute = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    degreeLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    degreeName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    grade = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    passingYear = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    achievement = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -116,6 +113,52 @@ namespace Portfolio_API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "userExperiences",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    companyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    jobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    responsibility = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_userExperiences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_userExperiences_user_userID",
+                        column: x => x.userID,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "userProjects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ProjectTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Stack = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GitUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_userProjects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_userProjects_user_UserID",
+                        column: x => x.UserID,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_about_UserID",
                 table: "about",
@@ -130,6 +173,16 @@ namespace Portfolio_API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_skills_UserID",
                 table: "skills",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_userExperiences_userID",
+                table: "userExperiences",
+                column: "userID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_userProjects_UserID",
+                table: "userProjects",
                 column: "UserID");
         }
 
@@ -146,6 +199,12 @@ namespace Portfolio_API.Migrations
 
             migrationBuilder.DropTable(
                 name: "skills");
+
+            migrationBuilder.DropTable(
+                name: "userExperiences");
+
+            migrationBuilder.DropTable(
+                name: "userProjects");
 
             migrationBuilder.DropTable(
                 name: "user");

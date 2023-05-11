@@ -199,7 +199,6 @@ namespace Portfolio_API.Migrations
                     b.ToTable("user");
                 });
 
-            modelBuilder.Entity("Portfolio_API.Models.UserProjects", b =>
             modelBuilder.Entity("Portfolio_API.Models.UserExperience", b =>
                 {
                     b.Property<int>("Id")
@@ -208,6 +207,39 @@ namespace Portfolio_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("companyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("duration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("jobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("responsibility")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("userID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("userID");
+
+                    b.ToTable("userExperiences");
+                });
+
+            modelBuilder.Entity("Portfolio_API.Models.UserProjects", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -226,37 +258,13 @@ namespace Portfolio_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserID")
-=======
-                    b.Property<string>("companyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("duration")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("jobTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("responsibility")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("userID")
-
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-
                     b.HasIndex("UserID");
 
                     b.ToTable("userProjects");
-
-                    b.HasIndex("userID");
-
-                    b.ToTable("userExperiences");
                 });
 
             modelBuilder.Entity("Portfolio_API.Models.About", b =>
@@ -292,18 +300,22 @@ namespace Portfolio_API.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("Portfolio_API.Models.UserProjects", b =>
-                {
-                    b.HasOne("Portfolio_API.Models.User", "user")
-                        .WithMany("UserProjects")
-                        .HasForeignKey("UserID")
-
             modelBuilder.Entity("Portfolio_API.Models.UserExperience", b =>
                 {
                     b.HasOne("Portfolio_API.Models.User", "user")
                         .WithMany("UserExperiences")
                         .HasForeignKey("userID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Portfolio_API.Models.UserProjects", b =>
+                {
+                    b.HasOne("Portfolio_API.Models.User", "user")
+                        .WithMany("UserProjects")
+                        .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -318,9 +330,10 @@ namespace Portfolio_API.Migrations
                     b.Navigation("Education");
 
                     b.Navigation("Skills");
-                    b.Navigation("UserProjects");
+
                     b.Navigation("UserExperiences");
 
+                    b.Navigation("UserProjects");
                 });
 #pragma warning restore 612, 618
         }
