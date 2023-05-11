@@ -24,6 +24,7 @@ namespace Portfolio_API
             builder.Services.AddScoped<IAbout, AboutRepository>();
             builder.Services.AddScoped<ISkills, SkillsRepository>();
             builder.Services.AddScoped<IEducation, EducationRepository>();
+            builder.Services.AddScoped<IProjects, ProjectsRepository>();
 
             builder.Services.AddTransient<TokenGeneration>();
 
