@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portfolio_API.Data;
 
@@ -10,9 +11,10 @@ using Portfolio_API.Data;
 namespace Portfolio_API.Migrations
 {
     [DbContext(typeof(PorfolioContext))]
-    partial class PorfolioContextModelSnapshot : ModelSnapshot
+    [Migration("20230511055337_experienceModel")]
+    partial class experienceModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,7 +201,6 @@ namespace Portfolio_API.Migrations
                     b.ToTable("user");
                 });
 
-            modelBuilder.Entity("Portfolio_API.Models.UserProjects", b =>
             modelBuilder.Entity("Portfolio_API.Models.UserExperience", b =>
                 {
                     b.Property<int>("Id")
@@ -208,25 +209,6 @@ namespace Portfolio_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GitUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ProjectTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Stack")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserID")
-=======
                     b.Property<string>("companyName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -244,15 +226,9 @@ namespace Portfolio_API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("userID")
-
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("userProjects");
 
                     b.HasIndex("userID");
 
@@ -292,18 +268,11 @@ namespace Portfolio_API.Migrations
                     b.Navigation("user");
                 });
 
-            modelBuilder.Entity("Portfolio_API.Models.UserProjects", b =>
-                {
-                    b.HasOne("Portfolio_API.Models.User", "user")
-                        .WithMany("UserProjects")
-                        .HasForeignKey("UserID")
-
             modelBuilder.Entity("Portfolio_API.Models.UserExperience", b =>
                 {
                     b.HasOne("Portfolio_API.Models.User", "user")
                         .WithMany("UserExperiences")
                         .HasForeignKey("userID")
-
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -318,9 +287,8 @@ namespace Portfolio_API.Migrations
                     b.Navigation("Education");
 
                     b.Navigation("Skills");
-                    b.Navigation("UserProjects");
-                    b.Navigation("UserExperiences");
 
+                    b.Navigation("UserExperiences");
                 });
 #pragma warning restore 612, 618
         }

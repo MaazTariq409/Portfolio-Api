@@ -26,6 +26,9 @@ namespace Portfolio_API
             builder.Services.AddScoped<IEducation, EducationRepository>();
             builder.Services.AddScoped<IProjects, ProjectsRepository>();
 
+            builder.Services.AddScoped<IUserExperience, UserExperienceRepository>();
+
+
             builder.Services.AddTransient<TokenGeneration>();
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
