@@ -118,7 +118,7 @@ namespace Portfolio_API.Controllers
         }
 
         // DELETE api/<UserController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public ActionResult DeleteUser()
         {
             var userId = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);

@@ -42,13 +42,15 @@ namespace Portfolio_API.Repository
             return UserAbout;
         }
 
-        public void removeAbout(int id)
+        public void removeAbout(int id, int aboutId)
         {
-            var UserAbout = _context.about.FirstOrDefault(x => x.UserID == id);
-            if (UserAbout != null)
+            var users = _context.user.Include(x => x.About).FirstOrDefault(x => x.Id == id);
+            if (users != null)
             {
-                _context.Remove(UserAbout);
-                _context.SaveChanges();
+
+                    _context.Remove(users.About);
+                    _context.SaveChanges();
+                
             }
         }
 

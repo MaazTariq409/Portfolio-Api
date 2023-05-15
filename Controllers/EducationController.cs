@@ -81,7 +81,7 @@ namespace Portfolio_API.Controllers
         }
 
         // DELETE api/<EducationController>/5
-        [HttpDelete]
+        [HttpDelete("{eduId}")]
         public ActionResult DeleteEdu (int eduId)
         {
             var id = Int32.Parse(User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value);

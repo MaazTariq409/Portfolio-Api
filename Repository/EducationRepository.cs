@@ -39,9 +39,16 @@ namespace Portfolio_API.Repository
 
         public void removeEducation(int userId, int eduId)
         {
-            var educationToRemove = _context.educations.FirstOrDefault(x => x.Id == eduId && x.UserID == userId);
-            _context.educations.Remove(educationToRemove);
-            _context.SaveChanges();
+            var users = _context.user.Include(x => x.Education).FirstOrDefault(x => x.Id == userId);
+            if (users != null)
+            {
+                var skill = users.Education[eduId];
+                if (skill != null)
+                {
+                    _context.Remove(skill);
+                    _context.SaveChanges();
+                }
+            }
         }
 
         public void updateEducation(int id, int eduId, Education Edu)
