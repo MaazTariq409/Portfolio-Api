@@ -502,3 +502,6 @@ bin/Debug/net6.0/appsettings.json
 appsettings.json
 obj/Debug/net6.0/Portfolio API.GeneratedMSBuildEditorConfig.editorconfig
 bin/Debug/net6.0/appsettings.json
+/obj/Debug/net6.0/Portfolio API.GeneratedMSBuildEditorConfig.editorconfig
+/bin/Debug/net6.0/Portfolio API.exe
+/obj/Debug/net6.0/apphost.exe
